@@ -1,15 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from '../dto/user.dto';
 import { v4 as uuidv4 } from 'uuid';
-
+import * as db from '../../db/db';
 @Injectable()
 export class UserService {
-  private user = [];
   getall() {
-    return this.user;
+    return db.user;
   }
   create(CreateUserDto: CreateUserDto) {
-    this.user.push({
+    db.user.push({
       ...CreateUserDto,
       id: uuidv4(),
       version: 0,
@@ -19,6 +18,6 @@ export class UserService {
   }
   getById(id: string) {
     console.log(id);
-    return this.user.find((item) => item.id === id);
+    return db.user.find((item) => item.id === id);
   }
 }
