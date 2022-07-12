@@ -5,8 +5,6 @@ import * as bcrypt from 'bcrypt';
 @Injectable()
 export class SingupService {
   async singup(singupuser) {
-    console.log(db.user);
-
     const newUser = {
       ...singupuser,
       password: await bcrypt.hash(singupuser.password, 10),
