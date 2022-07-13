@@ -1,6 +1,12 @@
 const user = [];
 const token = null;
 const track = [];
+const artist = [];
+const album = [];
+const favs = { artist: [], album: [], track: [] };
 export { user };
 export { token };
 export { track };
+export { album };
+export { artist };
+export { favs };

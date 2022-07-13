@@ -16,11 +16,11 @@ import { UpdatePasswordDto } from './dto/update.dto';
 import { UserService } from './user/user.service';
 @Controller('user')
 export class UserController {
-  constructor(private readonly UserService: UserService) {}
+  constructor(public readonly Userservice: UserService) {}
   @Get()
   @HttpCode(200)
   getall() {
-    return this.UserService.getall();
+    return this.Userservice.getall();
   }
   @Post()
   @HttpCode(201)
@@ -35,7 +35,7 @@ export class UserController {
       });
     }
 
-    return this.UserService.create(createuser);
+    return this.Userservice.create(createuser);
   }
   @Get(':id')
   @HttpCode(200)
@@ -48,8 +48,8 @@ export class UserController {
       });
     }
 
-    if (this.UserService.getById(id)) {
-      return this.UserService.getById(id);
+    if (this.Userservice.getById(id)) {
+      return this.Userservice.getById(id);
     } else {
       throw new NotFoundException({
         status: HttpStatus.NOT_FOUND,
@@ -70,8 +70,8 @@ export class UserController {
         error: 'BAD_REQUEST',
       });
     }
-    if (this.UserService.updatePass(id, updatePassdto)) {
-      return this.UserService.updatePass(id, updatePassdto);
+    if (this.Userservice.updatePass(id, updatePassdto)) {
+      return this.Userservice.updatePass(id, updatePassdto);
     } else {
       throw new NotFoundException({
         status: HttpStatus.NOT_FOUND,
@@ -89,8 +89,8 @@ export class UserController {
         error: 'BAD_REQUEST',
       });
     }
-    if (this.UserService.deleteUser(id)) {
-      return this.UserService.deleteUser(id);
+    if (this.Userservice.deleteUser(id)) {
+      return this.Userservice.deleteUser(id);
     } else {
       throw new NotFoundException({
         status: HttpStatus.NOT_FOUND,

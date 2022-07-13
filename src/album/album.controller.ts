@@ -11,17 +11,17 @@ import {
   Put,
   Delete,
 } from '@nestjs/common';
-import { TrackService } from './track/track.service';
-import { CreateTrackrDto } from './dto/track.dto';
-import { UpdateTrackDto } from './dto/update.dto';
+import { AlbumService } from './album/album.service';
+import { CreateAlbumDto } from './dto/album.dto';
+import { UpdateAlbumDto } from './dto/update.dto';
 
-@Controller('track')
-export class TrackController {
-  constructor(private readonly Trackservice: TrackService) {}
+@Controller('album')
+export class AlbumController {
+  constructor(private readonly Albumservice: AlbumService) {}
   @Get()
   @HttpCode(200)
   getall() {
-    return this.Trackservice.getall();
+    return this.Albumservice.getall();
   }
   @Get(':id')
   @HttpCode(200)
@@ -34,8 +34,8 @@ export class TrackController {
       });
     }
 
-    if (this.Trackservice.getById(id)) {
-      return this.Trackservice.getById(id);
+    if (this.Albumservice.getById(id)) {
+      return this.Albumservice.getById(id);
     } else {
       throw new NotFoundException({
         status: HttpStatus.NOT_FOUND,
@@ -45,15 +45,15 @@ export class TrackController {
   }
   @Post()
   @HttpCode(201)
-  create(@Body() createTrack: CreateTrackrDto) {
-    if (createTrack.hasOwnProperty('name') == false) {
+  create(@Body() createAlbum: CreateAlbumDto) {
+    if (createAlbum.hasOwnProperty('name') == false) {
       throw new BadRequestException({
         status: HttpStatus.BAD_REQUEST,
         message: 'BAD_REQUEST',
       });
     }
 
-    return this.Trackservice.create(createTrack);
+    return this.Albumservice.create(createAlbum);
   }
   @Delete(':id')
   @HttpCode(204)
@@ -65,8 +65,8 @@ export class TrackController {
         error: 'BAD_REQUEST',
       });
     }
-    if (this.Trackservice.delete(id)) {
-      return this.Trackservice.delete(id);
+    if (this.Albumservice.delete(id)) {
+      return this.Albumservice.delete(id);
     } else {
       throw new NotFoundException({
         status: HttpStatus.NOT_FOUND,
@@ -76,7 +76,7 @@ export class TrackController {
   }
   @Put(':id')
   @HttpCode(200)
-  updateTrack(@Param('id') id: string, @Body() UpdateTrackdto: UpdateTrackDto) {
-    return this.Trackservice.update(id, UpdateTrackdto);
+  updateTrack(@Param('id') id: string, @Body() UpdateAldto: UpdateAlbumDto) {
+    return this.Albumservice.update(id, UpdateAldto);
   }
 }

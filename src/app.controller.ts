@@ -15,7 +15,7 @@ import { LoginService } from './login/login.service';
 export class AppController {
   constructor(
     private readonly appService: AppService,
-    private LoginService: LoginService,
+    private Loginservice: LoginService,
   ) {}
 
   @Get('doc')
@@ -33,7 +33,7 @@ export class AppController {
         headers['authorization'] ||
         ''
       ).split(' ')[1];
-      return await this.LoginService.verify(token);
+      return await this.Loginservice.verify(token);
     } catch (err) {
       switch (err.message) {
         case 'invalid token':

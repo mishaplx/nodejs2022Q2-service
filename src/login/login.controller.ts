@@ -3,9 +3,9 @@ import { LoginService } from './login.service';
 import { CreateUserDto } from '../user/dto/user.dto';
 @Controller('login')
 export class LoginController {
-  constructor(private readonly LoginService: LoginService) {}
+  constructor(private readonly Loginservice: LoginService) {}
   @Post()
   login(@Body() loginUser: CreateUserDto) {
-    return this.LoginService.singup(loginUser);
+    return this.Loginservice.singup(loginUser);
   }
 }

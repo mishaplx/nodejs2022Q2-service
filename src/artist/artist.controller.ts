@@ -11,17 +11,16 @@ import {
   Put,
   Delete,
 } from '@nestjs/common';
-import { TrackService } from './track/track.service';
-import { CreateTrackrDto } from './dto/track.dto';
-import { UpdateTrackDto } from './dto/update.dto';
-
-@Controller('track')
-export class TrackController {
-  constructor(private readonly Trackservice: TrackService) {}
+import { AtristService } from './atrists/atrist.service';
+import { CreateArtistDto } from './dto/artist.dto';
+import { UpdateArtistDto } from './dto/update.dto';
+@Controller('artist')
+export class ArtistController {
+  constructor(private readonly artistservice: AtristService) {}
   @Get()
   @HttpCode(200)
   getall() {
-    return this.Trackservice.getall();
+    return this.artistservice.getall();
   }
   @Get(':id')
   @HttpCode(200)
@@ -34,8 +33,8 @@ export class TrackController {
       });
     }
 
-    if (this.Trackservice.getById(id)) {
-      return this.Trackservice.getById(id);
+    if (this.artistservice.getById(id)) {
+      return this.artistservice.getById(id);
     } else {
       throw new NotFoundException({
         status: HttpStatus.NOT_FOUND,
@@ -44,16 +43,16 @@ export class TrackController {
     }
   }
   @Post()
-  @HttpCode(201)
-  create(@Body() createTrack: CreateTrackrDto) {
-    if (createTrack.hasOwnProperty('name') == false) {
+  @HttpCode(200)
+  create(@Body() createArtist: CreateArtistDto) {
+    if (createArtist.hasOwnProperty('name') == false) {
       throw new BadRequestException({
         status: HttpStatus.BAD_REQUEST,
         message: 'BAD_REQUEST',
       });
     }
 
-    return this.Trackservice.create(createTrack);
+    return this.artistservice.create(createArtist);
   }
   @Delete(':id')
   @HttpCode(204)
@@ -65,8 +64,8 @@ export class TrackController {
         error: 'BAD_REQUEST',
       });
     }
-    if (this.Trackservice.delete(id)) {
-      return this.Trackservice.delete(id);
+    if (this.artistservice.delete(id)) {
+      return this.artistservice.delete(id);
     } else {
       throw new NotFoundException({
         status: HttpStatus.NOT_FOUND,
@@ -76,7 +75,10 @@ export class TrackController {
   }
   @Put(':id')
   @HttpCode(200)
-  updateTrack(@Param('id') id: string, @Body() UpdateTrackdto: UpdateTrackDto) {
-    return this.Trackservice.update(id, UpdateTrackdto);
+  updateTrack(
+    @Param('id') id: string,
+    @Body() UpdateArtistdto: UpdateArtistDto,
+  ) {
+    return this.artistservice.update(id, UpdateArtistdto);
   }
 }

@@ -21,5 +21,5 @@ export class CreateTrackrDto {
 
   @IsNumber()
   @IsOptional()
-  duration: string[];
+  duration: number;
 }
