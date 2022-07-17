@@ -27,7 +27,6 @@ export class TrackController {
   @HttpCode(200)
   getById(@Param('id') id: string) {
     if (id.split('-').length !== 5) {
-      console.log(id.split('-').length);
       throw new BadRequestException({
         status: HttpStatus.BAD_REQUEST,
         error: 'BAD_REQUEST',
@@ -57,7 +56,7 @@ export class TrackController {
   }
   @Delete(':id')
   @HttpCode(204)
-  delUser(@Param('id') id: string) {
+  delTrack(@Param('id') id: string) {
     if (id.split('-').length !== 5) {
       console.log(id.split('-').length);
       throw new BadRequestException({

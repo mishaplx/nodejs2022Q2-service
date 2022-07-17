@@ -7,7 +7,6 @@ import { UpdateTrackDto } from '../dto/update.dto';
 export class TrackService {
   track = db.track;
   getall() {
-    console.log(this.track);
     return this.track;
   }
   getById(id: string) {
