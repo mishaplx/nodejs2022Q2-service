@@ -17,14 +17,15 @@ export class AppController {
     private readonly appService: AppService,
     private Loginservice: LoginService,
   ) {}
-
+  @Get()
+  hello(): string {
+    return this.appService.hello();
+  }
   @Get('doc')
   @Redirect(
     'https://app.swaggerhub.com/apis/OLEGORLOV100OLEG/home-library_service/1.0.0#/Login/post_login',
   )
-  doc(): string {
-    return this.appService.doc();
-  }
+
   @Post('verify')
   async create(@Headers() headers) {
     try {

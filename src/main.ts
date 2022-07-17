@@ -6,6 +6,8 @@ dotenv.config();
 const port = process.env.PORT || 5000;
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  await app.listen(Number(port));
+  await app.listen(Number(port), ()=>{
+    console.log(`App Start in port - ${port} - link - http://localhost:${port}`);
+});
 }
 bootstrap();

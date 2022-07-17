@@ -10,14 +10,20 @@ import {
   BadRequestException,
   Put,
   Delete,
+  Headers,
+  UnauthorizedException,
+  HttpException,
 } from '@nestjs/common';
 import { TrackService } from './track/track.service';
 import { CreateTrackrDto } from './dto/track.dto';
 import { UpdateTrackDto } from './dto/update.dto';
-
+import { LoginService } from 'src/login/login.service';
+//import { LoginService } from '../login/login.service';
+LoginService
 @Controller('track')
 export class TrackController {
-  constructor(private readonly Trackservice: TrackService) {}
+  constructor(private readonly Trackservice: TrackService,
+    private Loginservice: LoginService) {}
   @Get()
   @HttpCode(200)
   getall() {
@@ -44,7 +50,31 @@ export class TrackController {
   }
   @Post()
   @HttpCode(201)
-  create(@Body() createTrack: CreateTrackrDto) {
+  async create(@Body() createTrack: CreateTrackrDto, @Headers() headers) {
+
+    //console.log(this.Loginservice.verify(headers.authorization),'qweqweqweqweqweqwe');
+
+    //console.log(headers.authorization,'---headers.authorization');
+
+    // try {
+    //   const token = ( 
+    //     headers['Authorization'] ||
+    //     headers['authorization'] ||
+    //     ''
+    //   ).split(' ')[1];
+    //   return await this.Loginservice.verify(token);
+    // } catch (err) {
+    //   switch (err.message) {
+    //     case 'invalid token':
+    //     case 'jwt must be provided':
+    //       throw new UnauthorizedException();
+    //     default:
+    //       throw new HttpException(
+    //         err.message,
+    //         HttpStatus.INTERNAL_SERVER_ERROR,
+    //       );
+    //   }
+    // }
     if (createTrack.hasOwnProperty('name') == false) {
       throw new BadRequestException({
         status: HttpStatus.BAD_REQUEST,
