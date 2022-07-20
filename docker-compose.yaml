@@ -1,19 +1,19 @@
 version: "3.8"
 services:
-  # db: 
-  #   build: 
-  #     context: ./postgres-docker
-  #     dockerfile: Dockerfile
-  #     container_name: db
-  #     environment: 
-  #       - POSTGRES_DB=postgres
-  #       - POSTGRES_USER=postgres
-  #       - POSTGRES_PASSWORD=postgres
-  #     ports: 
-  #       - "5432:5432"
-  #      networks:
-  #         - my_network
-  #     restart: always
+  db: 
+    build: 
+      context: ./postgres-docker
+      dockerfile: Dockerfile
+    container_name: db
+    environment: 
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports: 
+      - "5432:5432"
+    networks:
+      - my_network
+    restart: always
   nest-api-rest: 
     build: 
       context: .
