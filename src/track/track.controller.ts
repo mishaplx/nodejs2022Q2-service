@@ -17,13 +17,15 @@ import {
 import { TrackService } from './track/track.service';
 import { CreateTrackrDto } from './dto/track.dto';
 import { UpdateTrackDto } from './dto/update.dto';
-import { LoginService } from 'src/login/login.service';
+import { LoginService } from '../login/login.service';
 //import { LoginService } from '../login/login.service';
-LoginService
+LoginService;
 @Controller('track')
 export class TrackController {
-  constructor(private readonly Trackservice: TrackService,
-    private Loginservice: LoginService) {}
+  constructor(
+    private readonly Trackservice: TrackService,
+    private Loginservice: LoginService,
+  ) {}
   @Get()
   @HttpCode(200)
   getall() {
@@ -51,13 +53,12 @@ export class TrackController {
   @Post()
   @HttpCode(201)
   async create(@Body() createTrack: CreateTrackrDto, @Headers() headers) {
-
     //console.log(this.Loginservice.verify(headers.authorization),'qweqweqweqweqweqwe');
 
     //console.log(headers.authorization,'---headers.authorization');
 
     // try {
-    //   const token = ( 
+    //   const token = (
     //     headers['Authorization'] ||
     //     headers['authorization'] ||
     //     ''
