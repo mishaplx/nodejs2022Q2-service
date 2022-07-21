@@ -1,14 +1,26 @@
+
+import { FavsEntity } from './../../entitys/favs.entity';
 import { Injectable } from '@nestjs/common';
 import * as db from '../../db/db';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { v4 as uuidv4 } from 'uuid';
 @Injectable()
 export class FavsService {
+  constructor(
+    @InjectRepository(FavsEntity)
+    private FavsRepository: Repository<FavsEntity>,
+    @InjectRepository(TrackEntity)
+    private TrackRepository: Repository<TrackEntity>,
+  ) {}
   async gelAll() {
-    return db.favs;
+    return this.FavsRepository.find();
   }
-  async addTrack(id) {
-    const track = db.track.find((item) => item.id == id);
-    console.log(track);
-    db.favs.track.push(track);
+  async addTrack(id: string) {
+    const Track = await this.TrackRepository.findBy({ id: id });
+    //связь 
+    const addTrack = await this.FavsRepository.insert(newFavTrack);
+    return TrackById;
   }
   async addAlbum(id) {
     const album = db.album.find((item) => item.id == id);
