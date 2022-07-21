@@ -17,7 +17,7 @@ export class CreateTrackrDto {
 
   @IsString()
   @IsOptional()
-  albumId: string[];
+  albumId: string;
 
   @IsNumber()
   @IsOptional()

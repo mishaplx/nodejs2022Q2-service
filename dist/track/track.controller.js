@@ -20,9 +20,8 @@ const update_dto_1 = require("./dto/update.dto");
 const login_service_1 = require("../login/login.service");
 login_service_1.LoginService;
 let TrackController = class TrackController {
-    constructor(Trackservice, Loginservice) {
+    constructor(Trackservice) {
         this.Trackservice = Trackservice;
-        this.Loginservice = Loginservice;
     }
     getall() {
         return this.Trackservice.getall();
@@ -44,7 +43,7 @@ let TrackController = class TrackController {
             });
         }
     }
-    async create(createTrack, headers) {
+    async create(createTrack) {
         if (createTrack.hasOwnProperty('name') == false) {
             throw new common_1.BadRequestException({
                 status: common_1.HttpStatus.BAD_REQUEST,
@@ -94,9 +93,8 @@ __decorate([
     (0, common_1.Post)(),
     (0, common_1.HttpCode)(201),
     __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Headers)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [track_dto_1.CreateTrackrDto, Object]),
+    __metadata("design:paramtypes", [track_dto_1.CreateTrackrDto]),
     __metadata("design:returntype", Promise)
 ], TrackController.prototype, "create", null);
 __decorate([
@@ -118,8 +116,7 @@ __decorate([
 ], TrackController.prototype, "updateTrack", null);
 TrackController = __decorate([
     (0, common_1.Controller)('track'),
-    __metadata("design:paramtypes", [track_service_1.TrackService,
-        login_service_1.LoginService])
+    __metadata("design:paramtypes", [track_service_1.TrackService])
 ], TrackController);
 exports.TrackController = TrackController;
 //# sourceMappingURL=track.controller.js.map

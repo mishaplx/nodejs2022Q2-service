@@ -11,7 +11,7 @@ import {
   Put,
   Delete,
 } from '@nestjs/common';
-import { AtristService } from './atrists/atrist.service';
+import { AtristService } from './artists/atrist.service';
 import { CreateArtistDto } from './dto/artist.dto';
 import { UpdateArtistDto } from './dto/update.dto';
 @Controller('artist')

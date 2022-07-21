@@ -1,5 +1,6 @@
 export class Album {
   id: string; // uuid v4
   name: string;
-  grammy: boolean;
+  year: number;
+  artistId: string | null; // refers to Artist
 }

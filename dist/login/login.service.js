@@ -21,13 +21,10 @@ let LoginService = class LoginService {
         this.jwtService = jwtService;
     }
     async singup(loginUser) {
-        console.log(loginUser);
         const user = () => db.user.find((item) => item.login === loginUser.login);
         const currentUser = user();
         if (currentUser) {
             const match = await bcrypt.compare(loginUser.password, currentUser.password);
-            console.log('loginUser.password----', loginUser.password);
-            console.log('currentUser.password----', currentUser.password);
             if (match) {
                 return {
                     token: await this.jwtService.sign({

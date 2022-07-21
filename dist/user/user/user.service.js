@@ -5,37 +5,50 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
+const user_entity_1 = require("./../../entitys/user.entity");
 const common_1 = require("@nestjs/common");
 const bcrypt = require("bcrypt");
 const uuid_1 = require("uuid");
+const typeorm_1 = require("@nestjs/typeorm");
 const db = require("../../db/db");
+const typeorm_2 = require("typeorm");
 let UserService = class UserService {
-    constructor() {
+    constructor(userRepository) {
+        this.userRepository = userRepository;
         this.user = db.user;
     }
     getall() {
-        return db.user;
+        return this.userRepository.find();
     }
     async create(CreateUserDto) {
         const newUser = Object.assign(Object.assign({}, CreateUserDto), { id: (0, uuid_1.v4)(), password: await bcrypt.hash(CreateUserDto.password, 10), version: 0, createdAt: new Date().toString(), updatedAt: new Date().toString() });
-        db.user.push(newUser);
-        return newUser;
+        const newUserSave = await this.userRepository.create(newUser);
+        await this.userRepository.save(newUserSave);
+        return newUserSave;
     }
-    getById(id) {
-        return db.user.find((item) => item.id === id);
+    async getById(id) {
+        const UserById = await this.userRepository.findBy({ id: id });
+        return UserById;
     }
     async updatePass(id, updatePassdto) {
-        const user = db.user.find((item) => item.id === id);
+        const user = await this.userRepository.findBy({ id: id });
+        console.log(user);
         const check = async function (updatePassdto) {
-            console.log(updatePassdto);
-            const match = await bcrypt.compare(updatePassdto.oldPassowrd, user.password);
+            const match = await bcrypt.compare(updatePassdto.oldPassowrd, user[0].password);
             return match;
         };
         const checkFlag = check(updatePassdto);
         if (checkFlag) {
-            user.password = await bcrypt.hash(updatePassdto.newPassword, 10);
+            const nerPass = await bcrypt.hash(updatePassdto.newPassword, 10);
+            this.userRepository.update({ password: user[0].password }, { password: nerPass });
             return user;
         }
         else {
@@ -43,17 +56,14 @@ let UserService = class UserService {
         }
     }
     deleteUser(id) {
-        const newArr = db.user.filter((item) => item.id !== id);
-        console.log(newArr);
-        this.user = newArr;
-        if (this.user.length == db.user.length) {
-            return false;
-        }
-        return this.user;
+        const deleteUser = this.userRepository.delete({ id: id });
+        return deleteUser;
     }
 };
 UserService = __decorate([
-    (0, common_1.Injectable)()
+    (0, common_1.Injectable)(),
+    __param(0, (0, typeorm_1.InjectRepository)(user_entity_1.UserEntity)),
+    __metadata("design:paramtypes", [typeorm_2.Repository])
 ], UserService);
 exports.UserService = UserService;
 //# sourceMappingURL=user.service.js.map

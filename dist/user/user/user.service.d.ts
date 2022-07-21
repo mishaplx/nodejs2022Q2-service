@@ -1,17 +1,14 @@
+import { UserEntity } from './../../entitys/user.entity';
 import { CreateUserDto } from '../dto/user.dto';
 import { UpdatePasswordDto } from '../dto/update.dto';
+import { Repository } from 'typeorm';
 export declare class UserService {
+    private userRepository;
+    constructor(userRepository: Repository<UserEntity>);
     user: any[];
-    getall(): any[];
-    create(CreateUserDto: CreateUserDto): Promise<{
-        id: string;
-        password: string;
-        version: number;
-        createdAt: string;
-        updatedAt: string;
-        login: string;
-    }>;
-    getById(id: string): any;
-    updatePass(id: string, updatePassdto: UpdatePasswordDto): Promise<any>;
-    deleteUser(id: string): false | any[];
+    getall(): Promise<UserEntity[]>;
+    create(CreateUserDto: CreateUserDto): Promise<UserEntity>;
+    getById(id: string): Promise<UserEntity[]>;
+    updatePass(id: string, updatePassdto: UpdatePasswordDto): Promise<boolean | UserEntity[]>;
+    deleteUser(id: string): Promise<import("typeorm").DeleteResult>;
 }

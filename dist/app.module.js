@@ -7,50 +7,47 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
+const track_module_1 = require("./track/track/track.module");
+const user_module_1 = require("./user/user/user.module");
 const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
-const user_service_1 = require("./user/user/user.service");
 const singup_service_1 = require("./singup/singup.service");
 const login_service_1 = require("./login/login.service");
-const track_service_1 = require("./track/track/track.service");
-const atrist_service_1 = require("./artist/atrists/atrist.service");
-const album_service_1 = require("./album/album/album.service");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
-const user_controller_1 = require("./user/user.controller");
 const singup_controller_1 = require("./singup/singup.controller");
 const login_controller_1 = require("./login/login.controller");
-const track_controller_1 = require("./track/track.controller");
-const artist_controller_1 = require("./artist/artist.controller");
-const album_controller_1 = require("./album/album.controller");
-const favs_controller_1 = require("./favs/favs.controller");
 const favs_service_1 = require("./favs/favs/favs.service");
+const config_1 = require("@nestjs/config");
+const Joi = require("@hapi/joi");
+const database_module_1 = require("./db/database.module");
+const aldum_module_1 = require("./album/album/aldum.module");
+const artist_module_1 = require("./artist/artists/artist.module");
+const favs_module_1 = require("./favs/favs/favs.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [],
-        controllers: [
-            app_controller_1.AppController,
-            user_controller_1.UserController,
-            singup_controller_1.SingupController,
-            login_controller_1.LoginController,
-            track_controller_1.TrackController,
-            artist_controller_1.ArtistController,
-            album_controller_1.AlbumController,
-            favs_controller_1.FavsController,
+        imports: [
+            config_1.ConfigModule.forRoot({
+                validationSchema: Joi.object({
+                    POSTGRES_HOST: Joi.string().required(),
+                    POSTGRES_PORT: Joi.number().required(),
+                    POSTGRES_USER: Joi.string().required(),
+                    POSTGRES_PASSWORD: Joi.string().required(),
+                    POSTGRES_DB: Joi.string().required(),
+                    PORT: Joi.number(),
+                }),
+            }),
+            database_module_1.DatabaseModule,
+            user_module_1.UserModule,
+            track_module_1.TrackModule,
+            aldum_module_1.AldumModule,
+            artist_module_1.ArtistModule,
+            favs_module_1.FavsModule,
         ],
-        providers: [
-            app_service_1.AppService,
-            user_service_1.UserService,
-            singup_service_1.SingupService,
-            login_service_1.LoginService,
-            jwt_1.JwtService,
-            track_service_1.TrackService,
-            atrist_service_1.AtristService,
-            album_service_1.AlbumService,
-            favs_service_1.FavsService,
-        ],
+        controllers: [app_controller_1.AppController, singup_controller_1.SingupController, login_controller_1.LoginController],
+        providers: [app_service_1.AppService, singup_service_1.SingupService, login_service_1.LoginService, jwt_1.JwtService, favs_service_1.FavsService],
     })
 ], AppModule);
 exports.AppModule = AppModule;

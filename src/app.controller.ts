@@ -25,7 +25,6 @@ export class AppController {
   @Redirect(
     'https://app.swaggerhub.com/apis/OLEGORLOV100OLEG/home-library_service/1.0.0#/Login/post_login',
   )
-
   @Post('verify')
   async create(@Headers() headers) {
     try {

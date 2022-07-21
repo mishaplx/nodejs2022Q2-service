@@ -10,11 +10,8 @@ dotenv.config();
 
 @Injectable()
 export class LoginService {
-  
   constructor(private jwtService: JwtService) {}
   async singup(loginUser: CreateUserDto) {
-    console.log(loginUser);
-    
     const user = () => db.user.find((item) => item.login === loginUser.login);
     const currentUser = user();
 
@@ -23,8 +20,6 @@ export class LoginService {
         loginUser.password,
         currentUser.password,
       );
-      console.log('loginUser.password----', loginUser.password);
-      console.log('currentUser.password----', currentUser.password);
       if (match) {
         return {
           token: await this.jwtService.sign(

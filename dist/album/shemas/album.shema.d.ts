@@ -1,5 +1,6 @@
 export declare class Album {
     id: string;
     name: string;
-    grammy: boolean;
+    year: number;
+    artistId: string | null;
 }

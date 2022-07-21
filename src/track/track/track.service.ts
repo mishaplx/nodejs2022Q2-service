@@ -1,40 +1,42 @@
+import { TrackEntity } from './../../entitys/track.entity';
 import { Injectable } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
-import * as db from '../../db/db';
 import { CreateTrackrDto } from '../dto/track.dto';
 import { UpdateTrackDto } from '../dto/update.dto';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 @Injectable()
 export class TrackService {
-  track = db.track;
-  getall() {
-    return this.track;
+  constructor(
+    @InjectRepository(TrackEntity)
+    private TrackRepository: Repository<TrackEntity>,
+  ) {}
+  async getall() {
+    return this.TrackRepository.find();
   }
-  getById(id: string) {
-    return this.track.find((item) => item.id === id);
+  async getById(id: string) {
+    const TrackById = await this.TrackRepository.findBy({ id: id });
+    return TrackById;
   }
   async create(CreateTrackrDto: CreateTrackrDto) {
     const newTrack = {
       ...CreateTrackrDto,
       id: uuidv4(),
     };
-    this.track.push(newTrack);
-    return newTrack;
+    const newTrackSave = await this.TrackRepository.create(newTrack);
+    await this.TrackRepository.save(newTrackSave);
+    return newTrackSave;
   }
-  delete(id: string) {
-    const newArrTrack = db.track.filter((item) => item.id !== id);
-    this.track = newArrTrack;
-    //db.track = [];
-    if (this.track.length == db.track.length) {
-      return false;
-    } /// не изменяет значение в db
-    return this.track;
+  async delete(id: string) {
+    const deleteTrack = await this.TrackRepository.delete({ id: id });
+    // if (deleteTrack.length == db.track.length) {
+    //   return false;
+    // } /// не изменяет значение в db
+    // return this.track;
+    return deleteTrack;
   }
   async update(id: string, UpdateTrackDto: UpdateTrackDto) {
-    const track = this.track.find((item) => item.id === id);
-    track.name = UpdateTrackDto.name;
-    track.artistId = UpdateTrackDto.artistId;
-    track.albumId = UpdateTrackDto.artistId;
-    track.duration = UpdateTrackDto.duration;
-    return track;
+    const updateTrack = this.TrackRepository.update({ id: id }, UpdateTrackDto);
+    return updateTrack;
   }
 }

@@ -1,10 +1,10 @@
+import { FavsEntity } from './../../entitys/favs.entity';
+import { Repository } from 'typeorm';
 export declare class FavsService {
-    gelAll(): Promise<{
-        artist: any[];
-        album: any[];
-        track: any[];
-    }>;
-    addTrack(id: any): Promise<void>;
+    private FavsRepository;
+    constructor(FavsRepository: Repository<FavsEntity>);
+    gelAll(): Promise<FavsEntity[]>;
+    addTrack(id: string): Promise<any>;
     addAlbum(id: any): Promise<void>;
     addArtist(id: any): Promise<void>;
     deleteTrack(id: any): Promise<void>;

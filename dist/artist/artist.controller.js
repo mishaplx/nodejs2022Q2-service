@@ -14,7 +14,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ArtistController = void 0;
 const common_1 = require("@nestjs/common");
-const atrist_service_1 = require("./atrists/atrist.service");
+const atrist_service_1 = require("./artists/atrist.service");
 const artist_dto_1 = require("./dto/artist.dto");
 const update_dto_1 = require("./dto/update.dto");
 let ArtistController = class ArtistController {

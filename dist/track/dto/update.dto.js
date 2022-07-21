@@ -26,7 +26,7 @@ __decorate([
 __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsOptional)(),
-    __metadata("design:type", Array)
+    __metadata("design:type", String)
 ], UpdateTrackDto.prototype, "albumId", void 0);
 __decorate([
     (0, class_validator_1.IsNumber)(),

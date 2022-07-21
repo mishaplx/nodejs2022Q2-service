@@ -1,14 +1,22 @@
+import { UserEntity } from './../../entitys/user.entity';
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from '../dto/user.dto';
 import { UpdatePasswordDto } from '../dto/update.dto';
 import * as bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
+import { InjectRepository } from '@nestjs/typeorm';
 import * as db from '../../db/db';
+import { Repository } from 'typeorm';
+
 @Injectable()
 export class UserService {
+  constructor(
+    @InjectRepository(UserEntity)
+    private userRepository: Repository<UserEntity>,
+  ) {}
   user = db.user;
   getall() {
-    return db.user;
+    return this.userRepository.find();
   }
   async create(CreateUserDto: CreateUserDto) {
     const newUser = {
@@ -19,39 +27,48 @@ export class UserService {
       createdAt: new Date().toString(), // timestamp of creation
       updatedAt: new Date().toString(),
     };
-    db.user.push(newUser);
-    return newUser;
+    const newUserSave = await this.userRepository.create(newUser);
+    await this.userRepository.save(newUserSave);
+    return newUserSave;
   }
-  getById(id: string) {
-    return db.user.find((item) => item.id === id);
+  async getById(id: string) {
+    const UserById = await this.userRepository.findBy({ id: id });
+    return UserById;
   }
 
   async updatePass(id: string, updatePassdto: UpdatePasswordDto) {
-    const user = db.user.find((item) => item.id === id);
+    const user = await this.userRepository.findBy({ id: id });
+    console.log(user);
     const check = async function (updatePassdto) {
-      console.log(updatePassdto);
       const match = await bcrypt.compare(
         updatePassdto.oldPassowrd,
-        user.password,
+        user[0].password,
       );
 
       return match;
     };
     const checkFlag = check(updatePassdto);
     if (checkFlag) {
-      user.password = await bcrypt.hash(updatePassdto.newPassword, 10);
+      const nerPass = await bcrypt.hash(updatePassdto.newPassword, 10);
+      this.userRepository.update(
+        { password: user[0].password },
+        { password: nerPass },
+      );
+
       return user;
     } else {
       return !checkFlag;
     }
   }
   deleteUser(id: string) {
-    const newArr = db.user.filter((item) => item.id !== id);
-    console.log(newArr);
-    this.user = newArr;
-    if (this.user.length == db.user.length) {
-      return false;
-    } /// не изменяет значение в db
-    return this.user;
+    // const newArr = db.user.filter((item) => item.id !== id);
+    // console.log(newArr);
+    // this.user = newArr;
+    // if (this.user.length == db.user.length) {
+    //   return false;
+    // } /// не изменяет значение в db
+    // return this.user;
+    const deleteUser = this.userRepository.delete({ id: id });
+    return deleteUser;
   }
 }
