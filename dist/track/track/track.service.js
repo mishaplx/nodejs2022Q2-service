@@ -25,9 +25,9 @@ let TrackService = class TrackService {
     async getall() {
         return this.TrackRepository.find();
     }
-    async getById(id) {
+    async findOne(id) {
         const TrackById = await this.TrackRepository.findBy({ id: id });
-        return TrackById;
+        return TrackById[0];
     }
     async create(CreateTrackrDto) {
         const newTrack = Object.assign(Object.assign({}, CreateTrackrDto), { id: (0, uuid_1.v4)() });
@@ -36,12 +36,20 @@ let TrackService = class TrackService {
         return newTrackSave;
     }
     async delete(id) {
-        const deleteTrack = await this.TrackRepository.delete({ id: id });
-        return deleteTrack;
+        await this.TrackRepository.delete({ id: id });
+        const track = this.findOne(id);
+        this.TrackRepository.delete({ id: id });
+        return !!track ? `Track with id ${id} was deleted` : null;
     }
-    async update(id, UpdateTrackDto) {
-        const updateTrack = this.TrackRepository.update({ id: id }, UpdateTrackDto);
-        return updateTrack;
+    async update(id, params) {
+        const AllTrack = await this.TrackRepository.find();
+        AllTrack.map((track) => {
+            if (track.id === id) {
+                return Object.assign(track, params);
+            }
+            return track;
+        });
+        return await this.findOne(id);
     }
 };
 TrackService = __decorate([

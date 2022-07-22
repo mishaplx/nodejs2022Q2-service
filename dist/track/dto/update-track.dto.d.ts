@@ -1,5 +1,4 @@
-export declare class TrackDto {
-    id: string;
+export declare class UpdateTrackDto {
     name: string;
     artistId: string;
     albumId: string;

@@ -1,103 +1,54 @@
+import { ITrack } from './interfaces/track.interface';
+import { TrackDto } from './dto/track.dto';
+import { ErrorHandler } from './../errorhandler/error.handler';
 import {
   Controller,
   Body,
   Get,
-  HttpCode,
   Post,
   Param,
-  HttpStatus,
-  NotFoundException,
-  BadRequestException,
+  ParseUUIDPipe,
   Put,
   Delete,
-  Headers,
-  UnauthorizedException,
-  HttpException,
 } from '@nestjs/common';
 import { TrackService } from './track/track.service';
-import { CreateTrackrDto } from './dto/track.dto';
-import { UpdateTrackDto } from './dto/update.dto';
+import { CreateTrackDto } from './dto/create-track.dto';
+import { UpdateTrackDto } from './dto/update-track.dto';
+import { TrackEntity } from '../entitys/track.entity';
 
 @Controller('track')
 export class TrackController {
+  error = new ErrorHandler();
   constructor(private readonly Trackservice: TrackService) {}
   @Get()
-  @HttpCode(200)
-  getall() {
+  getall(): Promise<TrackEntity[]> {
     return this.Trackservice.getall();
   }
   @Get(':id')
-  @HttpCode(200)
-  getById(@Param('id') id: string) {
-    if (id.split('-').length !== 5) {
-      throw new BadRequestException({
-        status: HttpStatus.BAD_REQUEST,
-        error: 'BAD_REQUEST',
-      });
-    }
-
-    if (this.Trackservice.getById(id)) {
-      return this.Trackservice.getById(id);
-    } else {
-      throw new NotFoundException({
-        status: HttpStatus.NOT_FOUND,
-        error: 'NOT_FOUND',
-      });
-    }
+  async getById(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<void | TrackDto> {
+    const track = await this.Trackservice.findOne(id);
+    if (!track) return this.error.notFound('Track');
+    return track;
   }
   @Post()
-  @HttpCode(201)
-  async create(@Body() createTrack: CreateTrackrDto) {
-    // try {
-    //   const token = (
-    //     headers['Authorization'] ||
-    //     headers['authorization'] ||
-    //     ''
-    //   ).split(' ')[1];
-    //   return await this.Loginservice.verify(token);
-    // } catch (err) {
-    //   switch (err.message) {
-    //     case 'invalid token':
-    //     case 'jwt must be provided':
-    //       throw new UnauthorizedException();
-    //     default:
-    //       throw new HttpException(
-    //         err.message,
-    //         HttpStatus.INTERNAL_SERVER_ERROR,
-    //       );
-    //   }
-    // }
-    if (createTrack.hasOwnProperty('name') == false) {
-      throw new BadRequestException({
-        status: HttpStatus.BAD_REQUEST,
-        message: 'BAD_REQUEST',
-      });
-    }
-
-    return this.Trackservice.create(createTrack);
+  create(@Body() createTrackDto: CreateTrackDto): Promise<ITrack> {
+    return this.Trackservice.create(createTrackDto);
   }
   @Delete(':id')
-  @HttpCode(204)
-  delTrack(@Param('id') id: string) {
-    if (id.split('-').length !== 5) {
-      console.log(id.split('-').length);
-      throw new BadRequestException({
-        status: HttpStatus.BAD_REQUEST,
-        error: 'BAD_REQUEST',
-      });
-    }
-    if (this.Trackservice.delete(id)) {
-      return this.Trackservice.delete(id);
-    } else {
-      throw new NotFoundException({
-        status: HttpStatus.NOT_FOUND,
-        error: 'NOT_FOUND',
-      });
-    }
+  async delete(@Param('id', ParseUUIDPipe) id: string): Promise<string | void> {
+    const track = await this.Trackservice.delete(id);
+    if (!track) return this.error.notFound('Track');
+    return this.error.deleted('Track');
   }
   @Put(':id')
-  @HttpCode(200)
-  updateTrack(@Param('id') id: string, @Body() UpdateTrackdto: UpdateTrackDto) {
-    return this.Trackservice.update(id, UpdateTrackdto);
+  async update(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() updateTrackDto: UpdateTrackDto,
+  ) {
+    const track = await this.Trackservice.update(id, updateTrackDto);
+    if (!track) return this.error.notFound('Track');
+    return track;
   }
 }

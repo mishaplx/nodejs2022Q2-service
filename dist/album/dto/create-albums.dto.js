@@ -9,34 +9,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.TrackDto = void 0;
+exports.CreateAlbumDto = void 0;
 const class_validator_1 = require("class-validator");
-class TrackDto {
+class CreateAlbumDto {
 }
 __decorate([
     (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsUUID)(4),
     __metadata("design:type", String)
-], TrackDto.prototype, "id", void 0);
-__decorate([
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], TrackDto.prototype, "name", void 0);
-__decorate([
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsUUID)(4),
-    __metadata("design:type", String)
-], TrackDto.prototype, "artistId", void 0);
-__decorate([
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsUUID)(4),
-    __metadata("design:type", String)
-], TrackDto.prototype, "albumId", void 0);
+], CreateAlbumDto.prototype, "name", void 0);
 __decorate([
     (0, class_validator_1.IsInt)(),
     __metadata("design:type", Number)
-], TrackDto.prototype, "duration", void 0);
-exports.TrackDto = TrackDto;
-//# sourceMappingURL=track.dto.js.map
+], CreateAlbumDto.prototype, "year", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], CreateAlbumDto.prototype, "artistId", void 0);
+exports.CreateAlbumDto = CreateAlbumDto;
+//# sourceMappingURL=create-albums.dto.js.map

@@ -1,15 +1,16 @@
-import { AlbumDto } from './dto/allAlbum.dto';
+import { IAlbum } from './interfaces/album.interface';
+import { AlbumDto } from './dto/albums.dto';
 import { ErrorHandler } from 'src/errorhandler/error.handler';
 import { AlbumService } from './album/album.service';
-import { CreateAlbumDto } from './dto/album.dto';
-import { UpdateAlbumDto } from './dto/update.dto';
+import { CreateAlbumDto } from './dto/create-albums.dto';
+import { UpdateAlbumDto } from './dto/update-albums.dto';
 export declare class AlbumController {
     private readonly Albumservice;
     error: ErrorHandler;
     constructor(Albumservice: AlbumService);
-    getall(): Promise<import("../entitys/album.entity").AlbumEntity[]>;
-    getById(id: string): Promise<void | AlbumDto>;
+    getall(): Promise<IAlbum[]>;
+    getById(id: string): Promise<void | IAlbum>;
     create(createAlbum: CreateAlbumDto): Promise<AlbumDto>;
-    delUser(id: string): Promise<import("typeorm").DeleteResult>;
-    updateTrack(id: string, UpdateAldto: UpdateAlbumDto): Promise<import("typeorm").UpdateResult>;
+    delete(id: string): Promise<string | void>;
+    update(id: string, updateAlbumDto: UpdateAlbumDto): Promise<void | IAlbum>;
 }

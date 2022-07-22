@@ -13,105 +13,76 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TrackController = void 0;
+const error_handler_1 = require("./../errorhandler/error.handler");
 const common_1 = require("@nestjs/common");
 const track_service_1 = require("./track/track.service");
-const track_dto_1 = require("./dto/track.dto");
-const update_dto_1 = require("./dto/update.dto");
+const create_track_dto_1 = require("./dto/create-track.dto");
+const update_track_dto_1 = require("./dto/update-track.dto");
 let TrackController = class TrackController {
     constructor(Trackservice) {
         this.Trackservice = Trackservice;
+        this.error = new error_handler_1.ErrorHandler();
     }
     getall() {
         return this.Trackservice.getall();
     }
-    getById(id) {
-        if (id.split('-').length !== 5) {
-            throw new common_1.BadRequestException({
-                status: common_1.HttpStatus.BAD_REQUEST,
-                error: 'BAD_REQUEST',
-            });
-        }
-        if (this.Trackservice.getById(id)) {
-            return this.Trackservice.getById(id);
-        }
-        else {
-            throw new common_1.NotFoundException({
-                status: common_1.HttpStatus.NOT_FOUND,
-                error: 'NOT_FOUND',
-            });
-        }
+    async getById(id) {
+        const track = await this.Trackservice.findOne(id);
+        if (!track)
+            return this.error.notFound('Track');
+        return track;
     }
-    async create(createTrack) {
-        if (createTrack.hasOwnProperty('name') == false) {
-            throw new common_1.BadRequestException({
-                status: common_1.HttpStatus.BAD_REQUEST,
-                message: 'BAD_REQUEST',
-            });
-        }
-        return this.Trackservice.create(createTrack);
+    create(createTrackDto) {
+        return this.Trackservice.create(createTrackDto);
     }
-    delTrack(id) {
-        if (id.split('-').length !== 5) {
-            console.log(id.split('-').length);
-            throw new common_1.BadRequestException({
-                status: common_1.HttpStatus.BAD_REQUEST,
-                error: 'BAD_REQUEST',
-            });
-        }
-        if (this.Trackservice.delete(id)) {
-            return this.Trackservice.delete(id);
-        }
-        else {
-            throw new common_1.NotFoundException({
-                status: common_1.HttpStatus.NOT_FOUND,
-                error: 'NOT_FOUND',
-            });
-        }
+    async delete(id) {
+        const track = await this.Trackservice.delete(id);
+        if (!track)
+            return this.error.notFound('Track');
+        return this.error.deleted('Track');
     }
-    updateTrack(id, UpdateTrackdto) {
-        return this.Trackservice.update(id, UpdateTrackdto);
+    async update(id, updateTrackDto) {
+        const track = await this.Trackservice.update(id, updateTrackDto);
+        if (!track)
+            return this.error.notFound('Track');
+        return track;
     }
 };
 __decorate([
     (0, common_1.Get)(),
-    (0, common_1.HttpCode)(200),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], TrackController.prototype, "getall", null);
 __decorate([
     (0, common_1.Get)(':id'),
-    (0, common_1.HttpCode)(200),
-    __param(0, (0, common_1.Param)('id')),
+    __param(0, (0, common_1.Param)('id', common_1.ParseUUIDPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], TrackController.prototype, "getById", null);
 __decorate([
     (0, common_1.Post)(),
-    (0, common_1.HttpCode)(201),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [track_dto_1.CreateTrackrDto]),
+    __metadata("design:paramtypes", [create_track_dto_1.CreateTrackDto]),
     __metadata("design:returntype", Promise)
 ], TrackController.prototype, "create", null);
 __decorate([
     (0, common_1.Delete)(':id'),
-    (0, common_1.HttpCode)(204),
-    __param(0, (0, common_1.Param)('id')),
+    __param(0, (0, common_1.Param)('id', common_1.ParseUUIDPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
-], TrackController.prototype, "delTrack", null);
+    __metadata("design:returntype", Promise)
+], TrackController.prototype, "delete", null);
 __decorate([
     (0, common_1.Put)(':id'),
-    (0, common_1.HttpCode)(200),
-    __param(0, (0, common_1.Param)('id')),
+    __param(0, (0, common_1.Param)('id', common_1.ParseUUIDPipe)),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, update_dto_1.UpdateTrackDto]),
-    __metadata("design:returntype", void 0)
-], TrackController.prototype, "updateTrack", null);
+    __metadata("design:paramtypes", [String, update_track_dto_1.UpdateTrackDto]),
+    __metadata("design:returntype", Promise)
+], TrackController.prototype, "update", null);
 TrackController = __decorate([
     (0, common_1.Controller)('track'),
     __metadata("design:paramtypes", [track_service_1.TrackService])

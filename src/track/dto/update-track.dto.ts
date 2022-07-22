@@ -1,19 +1,17 @@
 import { IsInt, IsOptional, IsString, IsUUID } from 'class-validator';
 
-export class TrackDto {
-  @IsString()
-  @IsUUID(4)
-  id: string;
+export class UpdateTrackDto {
+  @IsOptional()
   @IsString()
   name: string;
   @IsString()
   @IsOptional()
   @IsUUID(4)
-  artistId: string;
+  artistId: string; // refers to Artist
   @IsString()
   @IsOptional()
-  @IsUUID(4)
-  albumId: string;
+  albumId: string; // refers to Album
   @IsInt()
-  duration: number;
+  @IsOptional()
+  duration: number; // integer number
 }

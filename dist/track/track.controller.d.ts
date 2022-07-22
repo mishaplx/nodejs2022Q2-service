@@ -1,12 +1,17 @@
+import { ITrack } from './interfaces/track.interface';
+import { TrackDto } from './dto/track.dto';
+import { ErrorHandler } from './../errorhandler/error.handler';
 import { TrackService } from './track/track.service';
-import { CreateTrackrDto } from './dto/track.dto';
-import { UpdateTrackDto } from './dto/update.dto';
+import { CreateTrackDto } from './dto/create-track.dto';
+import { UpdateTrackDto } from './dto/update-track.dto';
+import { TrackEntity } from '../entitys/track.entity';
 export declare class TrackController {
     private readonly Trackservice;
+    error: ErrorHandler;
     constructor(Trackservice: TrackService);
-    getall(): Promise<import("../entitys/track.entity").TrackEntity[]>;
-    getById(id: string): Promise<import("../entitys/track.entity").TrackEntity[]>;
-    create(createTrack: CreateTrackrDto): Promise<import("../entitys/track.entity").TrackEntity>;
-    delTrack(id: string): Promise<import("typeorm").DeleteResult>;
-    updateTrack(id: string, UpdateTrackdto: UpdateTrackDto): Promise<import("typeorm").UpdateResult>;
+    getall(): Promise<TrackEntity[]>;
+    getById(id: string): Promise<void | TrackDto>;
+    create(createTrackDto: CreateTrackDto): Promise<ITrack>;
+    delete(id: string): Promise<string | void>;
+    update(id: string, updateTrackDto: UpdateTrackDto): Promise<void | TrackDto>;
 }
