@@ -17,8 +17,6 @@ const common_1 = require("@nestjs/common");
 const track_service_1 = require("./track/track.service");
 const track_dto_1 = require("./dto/track.dto");
 const update_dto_1 = require("./dto/update.dto");
-const login_service_1 = require("../login/login.service");
-login_service_1.LoginService;
 let TrackController = class TrackController {
     constructor(Trackservice) {
         this.Trackservice = Trackservice;

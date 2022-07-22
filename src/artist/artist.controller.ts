@@ -1,84 +1,50 @@
+import { IArtist } from './artists/interface/artist.intarface';
+import { ErrorHandler } from './../errorhandler/error.handler';
 import {
   Controller,
   Body,
   Get,
-  HttpCode,
   Post,
   Param,
-  HttpStatus,
-  NotFoundException,
-  BadRequestException,
   Put,
   Delete,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { AtristService } from './artists/atrist.service';
-import { CreateArtistDto } from './dto/artist.dto';
-import { UpdateArtistDto } from './dto/update.dto';
+import { ArtistDto } from '../artist/dto/artist.tdo';
+import { CreateArtistDto } from './dto/create-artist.dto';
+import { UpdateArtistDto } from './dto/update-artist.dto';
 @Controller('artist')
 export class ArtistController {
+  error = new ErrorHandler();
   constructor(private readonly artistservice: AtristService) {}
   @Get()
-  @HttpCode(200)
-  getall() {
+  getall(): Promise<IArtist[]> {
     return this.artistservice.getall();
   }
   @Get(':id')
-  @HttpCode(200)
-  getById(@Param('id') id: string) {
-    if (id.split('-').length !== 5) {
-      console.log(id.split('-').length);
-      throw new BadRequestException({
-        status: HttpStatus.BAD_REQUEST,
-        error: 'BAD_REQUEST',
-      });
-    }
-
-    if (this.artistservice.getById(id)) {
-      return this.artistservice.getById(id);
-    } else {
-      throw new NotFoundException({
-        status: HttpStatus.NOT_FOUND,
-        error: 'NOT_FOUND',
-      });
-    }
+  async getById(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<void | ArtistDto> {
+    const artist = await this.artistservice.findOne(id);
+    if (!artist) return this.error.notFound('Artist');
+    return artist;
   }
   @Post()
-  @HttpCode(200)
-  create(@Body() createArtist: CreateArtistDto) {
-    if (createArtist.hasOwnProperty('name') == false) {
-      throw new BadRequestException({
-        status: HttpStatus.BAD_REQUEST,
-        message: 'BAD_REQUEST',
-      });
-    }
-
+  create(@Body() createArtist: CreateArtistDto): Promise<IArtist> {
     return this.artistservice.create(createArtist);
   }
   @Delete(':id')
-  @HttpCode(204)
-  delUser(@Param('id') id: string) {
-    if (id.split('-').length !== 5) {
-      console.log(id.split('-').length);
-      throw new BadRequestException({
-        status: HttpStatus.BAD_REQUEST,
-        error: 'BAD_REQUEST',
-      });
-    }
-    if (this.artistservice.delete(id)) {
-      return this.artistservice.delete(id);
-    } else {
-      throw new NotFoundException({
-        status: HttpStatus.NOT_FOUND,
-        error: 'NOT_FOUND',
-      });
-    }
+  async delete(@Param('id', ParseUUIDPipe) id: string): Promise<string | void> {
+    const track = await this.artistservice.delete(id);
+    if (!track) return this.error.notFound('Track');
+    return this.error.deleted('Track');
   }
   @Put(':id')
-  @HttpCode(200)
-  updateTrack(
-    @Param('id') id: string,
-    @Body() UpdateArtistdto: UpdateArtistDto,
-  ) {
-    return this.artistservice.update(id, UpdateArtistdto);
+  update(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() updateArtistDto: UpdateArtistDto,
+  ): Promise<IArtist | void> {
+    return this.artistservice.update(updateArtistDto, id);
   }
 }

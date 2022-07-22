@@ -1,12 +1,16 @@
+import { IArtist } from './artists/interface/artist.intarface';
+import { ErrorHandler } from './../errorhandler/error.handler';
 import { AtristService } from './artists/atrist.service';
-import { CreateArtistDto } from './dto/artist.dto';
-import { UpdateArtistDto } from './dto/update.dto';
+import { ArtistDto } from '../artist/dto/artist.tdo';
+import { CreateArtistDto } from './dto/create-artist.dto';
+import { UpdateArtistDto } from './dto/update-artist.dto';
 export declare class ArtistController {
     private readonly artistservice;
+    error: ErrorHandler;
     constructor(artistservice: AtristService);
-    getall(): Promise<import("../entitys/artist.entity").ArtistEntity[]>;
-    getById(id: string): Promise<import("../entitys/artist.entity").ArtistEntity[]>;
-    create(createArtist: CreateArtistDto): Promise<import("../entitys/artist.entity").ArtistEntity>;
-    delUser(id: string): Promise<import("typeorm").DeleteResult>;
-    updateTrack(id: string, UpdateArtistdto: UpdateArtistDto): Promise<import("typeorm").UpdateResult>;
+    getall(): Promise<IArtist[]>;
+    getById(id: string): Promise<void | ArtistDto>;
+    create(createArtist: CreateArtistDto): Promise<IArtist>;
+    delete(id: string): Promise<string | void>;
+    update(id: string, updateArtistDto: UpdateArtistDto): Promise<IArtist | void>;
 }

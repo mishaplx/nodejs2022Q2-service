@@ -13,6 +13,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
+const error_handler_1 = require("./../../errorhandler/error.handler");
 const user_entity_1 = require("./../../entitys/user.entity");
 const common_1 = require("@nestjs/common");
 const bcrypt = require("bcrypt");
@@ -22,38 +23,62 @@ const typeorm_2 = require("typeorm");
 let UserService = class UserService {
     constructor(userRepository) {
         this.userRepository = userRepository;
+        this.error = new error_handler_1.ErrorHandler();
+        this.userResponce = {
+            id: 'id',
+            login: '',
+            version: 1,
+            updatedAt: 1,
+            createdAt: 1,
+        };
     }
-    getall() {
+    findAll() {
         return this.userRepository.find();
     }
     async create(CreateUserDto) {
         const newUser = Object.assign(Object.assign({}, CreateUserDto), { id: (0, uuid_1.v4)(), password: await bcrypt.hash(CreateUserDto.password, 10), version: 0, createdAt: new Date().toString(), updatedAt: new Date().toString() });
         const newUserSave = await this.userRepository.create(newUser);
         await this.userRepository.save(newUserSave);
-        return newUserSave;
+        for (const key in newUser) {
+            if (key !== 'password') {
+                this.userResponce[key] = newUser[key];
+            }
+        }
+        return this.userResponce;
     }
     async getById(id) {
         const UserById = await this.userRepository.findBy({ id: id });
-        console.log(UserById);
         return UserById[0];
     }
     async updatePass(id, updatePassdto) {
         const user = await this.userRepository.findBy({ id: id });
+        const allUser = await this.findAll();
         console.log(user);
-        const check = async function (updatePassdto) {
-            const match = await bcrypt.compare(updatePassdto.oldPassowrd, user[0].password);
-            return match;
-        };
-        const checkFlag = check(updatePassdto);
-        if (checkFlag) {
-            const nerPass = await bcrypt.hash(updatePassdto.newPassword, 10);
-            this.userRepository.update({ password: user[0].password }, { password: nerPass });
-            return user;
+        if (!user) {
+            return this.error.notFound('user');
+        }
+        else {
+            allUser.map((User) => {
+                if (User.id === id) {
+                    if (User.password !== updatePassdto.oldPassowrd) {
+                        return this.error.notMatch();
+                    }
+                    User.password = updatePassdto.newPassword;
+                    User.version += 1;
+                    User.updatedAt = Date.now().toString();
+                    for (const key in User) {
+                        if (key !== 'password') {
+                            this.userResponce[key] = User[key];
+                        }
+                    }
+                }
+            });
+            return this.userResponce;
         }
     }
     deleteUser(id) {
-        const deleteUser = this.userRepository.delete({ id: id });
-        return deleteUser;
+        const user = this.userRepository.delete({ id: id });
+        return !!user ? this.error.deleted('user') : null;
     }
 };
 UserService = __decorate([

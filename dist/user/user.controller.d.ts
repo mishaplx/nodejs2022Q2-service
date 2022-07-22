@@ -1,3 +1,4 @@
+import { IUserResponce } from './interface/userInterface';
 import { CreateUserDto } from './dto/user.dto';
 import { UpdatePasswordDto } from './dto/update.dto';
 import { UserService } from './user/user.service';
@@ -7,8 +8,8 @@ export declare class UserController {
     error: ErrorHandler;
     constructor(Userservice: UserService);
     getall(): Promise<import("../entitys/user.entity").UserEntity[]>;
-    create(createuser: CreateUserDto): Promise<import("../entitys/user.entity").UserEntity>;
+    create(createuser: CreateUserDto): Promise<IUserResponce>;
     getById(id: string): void | Promise<import("../entitys/user.entity").UserEntity>;
-    updatePass(id: string, updatePassdto: UpdatePasswordDto): Promise<import("../entitys/user.entity").UserEntity[]>;
-    delUser(id: string): Promise<void | import("typeorm").DeleteResult>;
+    update(id: string, updatePasswordDto: UpdatePasswordDto): Promise<void | IUserResponce>;
+    delete(id: string): Promise<string | void>;
 }

@@ -17,9 +17,7 @@ import {
 import { TrackService } from './track/track.service';
 import { CreateTrackrDto } from './dto/track.dto';
 import { UpdateTrackDto } from './dto/update.dto';
-import { LoginService } from '../login/login.service';
 
-LoginService;
 @Controller('track')
 export class TrackController {
   constructor(private readonly Trackservice: TrackService) {}

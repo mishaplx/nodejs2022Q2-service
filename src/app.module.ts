@@ -1,4 +1,3 @@
-import { LoginModule } from './login/login.module';
 import { TrackModule } from './track/track/track.module';
 import { UserModule } from './user/user/user.module';
 import { Module } from '@nestjs/common';
@@ -30,7 +29,6 @@ import { FavsModule } from './favs/favs/favs.module';
     AldumModule,
     ArtistModule,
     FavsModule,
-    LoginModule,
   ],
   controllers: [AppController],
   providers: [AppService],

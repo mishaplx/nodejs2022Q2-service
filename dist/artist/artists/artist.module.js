@@ -7,6 +7,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ArtistModule = void 0;
+const track_entity_1 = require("./../../entitys/track.entity");
+const album_entity_1 = require("./../../entitys/album.entity");
 const artist_controller_1 = require("./../artist.controller");
 const artist_entity_1 = require("./../../entitys/artist.entity");
 const typeorm_1 = require("@nestjs/typeorm");
@@ -16,7 +18,7 @@ let ArtistModule = class ArtistModule {
 };
 ArtistModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([artist_entity_1.ArtistEntity])],
+        imports: [typeorm_1.TypeOrmModule.forFeature([artist_entity_1.ArtistEntity, album_entity_1.AlbumEntity, track_entity_1.TrackEntity])],
         controllers: [artist_controller_1.ArtistController],
         providers: [atrist_service_1.AtristService],
     })

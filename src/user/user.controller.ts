@@ -1,3 +1,4 @@
+import { IUserResponce } from './interface/userInterface';
 import {
   Body,
   Controller,
@@ -5,9 +6,7 @@ import {
   HttpCode,
   Post,
   Param,
-  HttpStatus,
-  NotFoundException,
-  BadRequestException,
+  ParseUUIDPipe,
   Put,
   Delete,
 } from '@nestjs/common';
@@ -22,10 +21,10 @@ export class UserController {
   @Get()
   @HttpCode(200)
   getall() {
-    return this.Userservice.getall();
+    return this.Userservice.findAll();
   }
   @Post()
-  create(@Body() createuser: CreateUserDto) {
+  create(@Body() createuser: CreateUserDto): Promise<IUserResponce> {
     return this.Userservice.create(createuser);
   }
   @Get(':id')
@@ -35,15 +34,14 @@ export class UserController {
     return user;
   }
   @Put(':id')
-  @HttpCode(200)
-  updatePass(
-    @Param('id') id: string,
-    @Body() updatePassdto: UpdatePasswordDto,
+  update(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() updatePasswordDto: UpdatePasswordDto,
   ) {
-    return this.Userservice.updatePass(id, updatePassdto);
+    return this.Userservice.updatePass(id, updatePasswordDto);
   }
   @Delete(':id')
-  async delUser(@Param('id') id: string) {
+  async delete(@Param('id', ParseUUIDPipe) id: string): Promise<string | void> {
     const user = await this.Userservice.deleteUser(id);
     if (user === null) return this.error.notFound('User');
     return user;
