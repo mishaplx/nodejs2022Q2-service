@@ -18,12 +18,10 @@ const common_1 = require("@nestjs/common");
 const bcrypt = require("bcrypt");
 const uuid_1 = require("uuid");
 const typeorm_1 = require("@nestjs/typeorm");
-const db = require("../../db/db");
 const typeorm_2 = require("typeorm");
 let UserService = class UserService {
     constructor(userRepository) {
         this.userRepository = userRepository;
-        this.user = db.user;
     }
     getall() {
         return this.userRepository.find();
@@ -36,7 +34,8 @@ let UserService = class UserService {
     }
     async getById(id) {
         const UserById = await this.userRepository.findBy({ id: id });
-        return UserById;
+        console.log(UserById);
+        return UserById[0];
     }
     async updatePass(id, updatePassdto) {
         const user = await this.userRepository.findBy({ id: id });
@@ -50,9 +49,6 @@ let UserService = class UserService {
             const nerPass = await bcrypt.hash(updatePassdto.newPassword, 10);
             this.userRepository.update({ password: user[0].password }, { password: nerPass });
             return user;
-        }
-        else {
-            return !checkFlag;
         }
     }
     deleteUser(id) {

@@ -14,8 +14,10 @@ import {
 import { CreateUserDto } from './dto/user.dto';
 import { UpdatePasswordDto } from './dto/update.dto';
 import { UserService } from './user/user.service';
+import { ErrorHandler } from 'src/errorhandler/error.handler';
 @Controller('user')
 export class UserController {
+  error = new ErrorHandler();
   constructor(public readonly Userservice: UserService) {}
   @Get()
   @HttpCode(200)
@@ -23,39 +25,14 @@ export class UserController {
     return this.Userservice.getall();
   }
   @Post()
-  @HttpCode(201)
   create(@Body() createuser: CreateUserDto) {
-    if (
-      createuser.hasOwnProperty('login') == false ||
-      createuser.hasOwnProperty('password') == false
-    ) {
-      throw new BadRequestException({
-        status: HttpStatus.BAD_REQUEST,
-        message: 'BAD_REQUEST',
-      });
-    }
-
     return this.Userservice.create(createuser);
   }
   @Get(':id')
-  @HttpCode(200)
   getById(@Param('id') id: string) {
-    if (id.split('-').length !== 5) {
-      console.log(id.split('-').length);
-      throw new BadRequestException({
-        status: HttpStatus.BAD_REQUEST,
-        error: 'BAD_REQUEST',
-      });
-    }
-
-    if (this.Userservice.getById(id)) {
-      return this.Userservice.getById(id);
-    } else {
-      throw new NotFoundException({
-        status: HttpStatus.NOT_FOUND,
-        error: 'NOT_FOUND',
-      });
-    }
+    const user = this.Userservice.getById(id);
+    if (!user) return this.error.notFound('User');
+    return user;
   }
   @Put(':id')
   @HttpCode(200)
@@ -63,39 +40,12 @@ export class UserController {
     @Param('id') id: string,
     @Body() updatePassdto: UpdatePasswordDto,
   ) {
-    if (id.split('-').length !== 5) {
-      console.log(id.split('-').length);
-      throw new BadRequestException({
-        status: HttpStatus.BAD_REQUEST,
-        error: 'BAD_REQUEST',
-      });
-    }
-    if (this.Userservice.updatePass(id, updatePassdto)) {
-      return this.Userservice.updatePass(id, updatePassdto);
-    } else {
-      throw new NotFoundException({
-        status: HttpStatus.NOT_FOUND,
-        error: 'NOT_FOUND',
-      });
-    }
+    return this.Userservice.updatePass(id, updatePassdto);
   }
   @Delete(':id')
-  @HttpCode(204)
-  delUser(@Param('id') id: string) {
-    if (id.split('-').length !== 5) {
-      console.log(id.split('-').length);
-      throw new BadRequestException({
-        status: HttpStatus.BAD_REQUEST,
-        error: 'BAD_REQUEST',
-      });
-    }
-    if (this.Userservice.deleteUser(id)) {
-      return this.Userservice.deleteUser(id);
-    } else {
-      throw new NotFoundException({
-        status: HttpStatus.NOT_FOUND,
-        error: 'NOT_FOUND',
-      });
-    }
+  async delUser(@Param('id') id: string) {
+    const user = await this.Userservice.deleteUser(id);
+    if (user === null) return this.error.notFound('User');
+    return user;
   }
 }

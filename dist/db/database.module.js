@@ -14,7 +14,6 @@ const typeorm_1 = require("@nestjs/typeorm");
 const config_1 = require("@nestjs/config");
 const user_entity_1 = require("../entitys/user.entity");
 const artist_entity_1 = require("../entitys/artist.entity");
-const favs_entity_1 = require("../entitys/favs.entity");
 let DatabaseModule = class DatabaseModule {
 };
 DatabaseModule = __decorate([
@@ -35,7 +34,6 @@ DatabaseModule = __decorate([
                         track_entity_1.TrackEntity,
                         album_entity_1.AlbumEntity,
                         artist_entity_1.ArtistEntity,
-                        favs_entity_1.FavsEntity,
                     ],
                     synchronize: true,
                 }),

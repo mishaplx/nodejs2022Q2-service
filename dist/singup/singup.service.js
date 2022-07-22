@@ -8,13 +8,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SingupService = void 0;
 const common_1 = require("@nestjs/common");
-const db = require("../db/db");
 const uuid_1 = require("uuid");
 const bcrypt = require("bcrypt");
 let SingupService = class SingupService {
     async singup(singupuser) {
         const newUser = Object.assign(Object.assign({}, singupuser), { password: await bcrypt.hash(singupuser.password, 10), id: (0, uuid_1.v4)(), version: 0, createdAt: new Date().toString(), updatedAt: new Date().toString() });
-        db.user.push(newUser);
     }
 };
 SingupService = __decorate([

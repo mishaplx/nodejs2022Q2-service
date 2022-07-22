@@ -11,18 +11,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ArtistEntity = void 0;
 const typeorm_1 = require("typeorm");
+const class_validator_1 = require("class-validator");
 let ArtistEntity = class ArtistEntity {
 };
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)('uuid'),
+    (0, class_validator_1.IsUUID)(),
     __metadata("design:type", String)
 ], ArtistEntity.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ nullable: false }),
+    (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], ArtistEntity.prototype, "name", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ nullable: false }),
+    (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", Boolean)
 ], ArtistEntity.prototype, "grammy", void 0);
 ArtistEntity = __decorate([

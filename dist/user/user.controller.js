@@ -17,76 +17,32 @@ const common_1 = require("@nestjs/common");
 const user_dto_1 = require("./dto/user.dto");
 const update_dto_1 = require("./dto/update.dto");
 const user_service_1 = require("./user/user.service");
+const error_handler_1 = require("../errorhandler/error.handler");
 let UserController = class UserController {
     constructor(Userservice) {
         this.Userservice = Userservice;
+        this.error = new error_handler_1.ErrorHandler();
     }
     getall() {
         return this.Userservice.getall();
     }
     create(createuser) {
-        if (createuser.hasOwnProperty('login') == false ||
-            createuser.hasOwnProperty('password') == false) {
-            throw new common_1.BadRequestException({
-                status: common_1.HttpStatus.BAD_REQUEST,
-                message: 'BAD_REQUEST',
-            });
-        }
         return this.Userservice.create(createuser);
     }
     getById(id) {
-        if (id.split('-').length !== 5) {
-            console.log(id.split('-').length);
-            throw new common_1.BadRequestException({
-                status: common_1.HttpStatus.BAD_REQUEST,
-                error: 'BAD_REQUEST',
-            });
-        }
-        if (this.Userservice.getById(id)) {
-            return this.Userservice.getById(id);
-        }
-        else {
-            throw new common_1.NotFoundException({
-                status: common_1.HttpStatus.NOT_FOUND,
-                error: 'NOT_FOUND',
-            });
-        }
+        const user = this.Userservice.getById(id);
+        if (!user)
+            return this.error.notFound('User');
+        return user;
     }
     updatePass(id, updatePassdto) {
-        if (id.split('-').length !== 5) {
-            console.log(id.split('-').length);
-            throw new common_1.BadRequestException({
-                status: common_1.HttpStatus.BAD_REQUEST,
-                error: 'BAD_REQUEST',
-            });
-        }
-        if (this.Userservice.updatePass(id, updatePassdto)) {
-            return this.Userservice.updatePass(id, updatePassdto);
-        }
-        else {
-            throw new common_1.NotFoundException({
-                status: common_1.HttpStatus.NOT_FOUND,
-                error: 'NOT_FOUND',
-            });
-        }
+        return this.Userservice.updatePass(id, updatePassdto);
     }
-    delUser(id) {
-        if (id.split('-').length !== 5) {
-            console.log(id.split('-').length);
-            throw new common_1.BadRequestException({
-                status: common_1.HttpStatus.BAD_REQUEST,
-                error: 'BAD_REQUEST',
-            });
-        }
-        if (this.Userservice.deleteUser(id)) {
-            return this.Userservice.deleteUser(id);
-        }
-        else {
-            throw new common_1.NotFoundException({
-                status: common_1.HttpStatus.NOT_FOUND,
-                error: 'NOT_FOUND',
-            });
-        }
+    async delUser(id) {
+        const user = await this.Userservice.deleteUser(id);
+        if (user === null)
+            return this.error.notFound('User');
+        return user;
     }
 };
 __decorate([
@@ -98,7 +54,6 @@ __decorate([
 ], UserController.prototype, "getall", null);
 __decorate([
     (0, common_1.Post)(),
-    (0, common_1.HttpCode)(201),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [user_dto_1.CreateUserDto]),
@@ -106,7 +61,6 @@ __decorate([
 ], UserController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(':id'),
-    (0, common_1.HttpCode)(200),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -123,11 +77,10 @@ __decorate([
 ], UserController.prototype, "updatePass", null);
 __decorate([
     (0, common_1.Delete)(':id'),
-    (0, common_1.HttpCode)(204),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], UserController.prototype, "delUser", null);
 UserController = __decorate([
     (0, common_1.Controller)('user'),

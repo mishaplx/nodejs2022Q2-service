@@ -11,10 +11,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TrackEntity = void 0;
 const typeorm_1 = require("typeorm");
+const class_validator_1 = require("class-validator");
 let TrackEntity = class TrackEntity {
 };
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)('uuid'),
+    (0, class_validator_1.IsUUID)(),
     __metadata("design:type", String)
 ], TrackEntity.prototype, "id", void 0);
 __decorate([
@@ -23,14 +25,17 @@ __decorate([
 ], TrackEntity.prototype, "name", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
+    (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], TrackEntity.prototype, "artistId", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
+    (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], TrackEntity.prototype, "albumId", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
+    (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", Number)
 ], TrackEntity.prototype, "duration", void 0);
 TrackEntity = __decorate([

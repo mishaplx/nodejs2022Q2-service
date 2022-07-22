@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AlbumEntity } from 'src/entitys/album.entity';
+import { AlbumDto } from '../dto/allAlbum.dto';
 @Injectable()
 export class AlbumService {
   constructor(
@@ -16,9 +17,9 @@ export class AlbumService {
   async getall() {
     return await this.AlbumRepository.find();
   }
-  async getById(id: string) {
+  async getById(id: string): Promise<AlbumDto> {
     const AlbumById = await this.AlbumRepository.findBy({ id: id });
-    return AlbumById;
+    return AlbumById[0];
   }
   async create(CreateAlbumDto: CreateAlbumDto) {
     const newAlbum = {
@@ -31,10 +32,7 @@ export class AlbumService {
   }
   async delete(id: string) {
     const deleteAlbum = await this.AlbumRepository.delete({ id: id });
-    // //db.album = [];
-    // if (this.album.length == db.album.length) {
-    //   return false;
-    // } /// не изменяет значение в db
+
     return deleteAlbum;
   }
   async update(id: string, UpdateAlbumDto: UpdateAlbumDto) {

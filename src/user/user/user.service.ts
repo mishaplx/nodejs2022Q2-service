@@ -5,7 +5,6 @@ import { UpdatePasswordDto } from '../dto/update.dto';
 import * as bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
 import { InjectRepository } from '@nestjs/typeorm';
-import * as db from '../../db/db';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -14,8 +13,7 @@ export class UserService {
     @InjectRepository(UserEntity)
     private userRepository: Repository<UserEntity>,
   ) {}
-  user = db.user;
-  getall() {
+  getall(): Promise<UserEntity[]> {
     return this.userRepository.find();
   }
   async create(CreateUserDto: CreateUserDto) {
@@ -31,9 +29,10 @@ export class UserService {
     await this.userRepository.save(newUserSave);
     return newUserSave;
   }
-  async getById(id: string) {
+  async getById(id: string): Promise<UserEntity> {
     const UserById = await this.userRepository.findBy({ id: id });
-    return UserById;
+    console.log(UserById);
+    return UserById[0];
   }
 
   async updatePass(id: string, updatePassdto: UpdatePasswordDto) {
@@ -56,18 +55,9 @@ export class UserService {
       );
 
       return user;
-    } else {
-      return !checkFlag;
     }
   }
   deleteUser(id: string) {
-    // const newArr = db.user.filter((item) => item.id !== id);
-    // console.log(newArr);
-    // this.user = newArr;
-    // if (this.user.length == db.user.length) {
-    //   return false;
-    // } /// не изменяет значение в db
-    // return this.user;
     const deleteUser = this.userRepository.delete({ id: id });
     return deleteUser;
   }

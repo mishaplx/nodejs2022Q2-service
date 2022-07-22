@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import * as db from '../db/db';
 import { v4 as uuidv4 } from 'uuid';
-import * as bcrypt from 'bcrypt'; 
+import * as bcrypt from 'bcrypt';
 @Injectable()
 export class SingupService {
   async singup(singupuser) {
@@ -13,6 +12,6 @@ export class SingupService {
       createdAt: new Date().toString(), // timestamp of creation
       updatedAt: new Date().toString(),
     };
-    db.user.push(newUser);
+    //db.user.push(newUser);
   }
 }

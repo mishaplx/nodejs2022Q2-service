@@ -15,11 +15,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppController = void 0;
 const common_1 = require("@nestjs/common");
 const app_service_1 = require("./app.service");
-const login_service_1 = require("./login/login.service");
 let AppController = class AppController {
-    constructor(appService, Loginservice) {
+    constructor(appService) {
         this.appService = appService;
-        this.Loginservice = Loginservice;
     }
     hello() {
         return this.appService.hello();
@@ -29,7 +27,6 @@ let AppController = class AppController {
             const token = (headers['Authorization'] ||
                 headers['authorization'] ||
                 '').split(' ')[1];
-            return await this.Loginservice.verify(token);
         }
         catch (err) {
             switch (err.message) {
@@ -59,8 +56,7 @@ __decorate([
 ], AppController.prototype, "create", null);
 AppController = __decorate([
     (0, common_1.Controller)(),
-    __metadata("design:paramtypes", [app_service_1.AppService,
-        login_service_1.LoginService])
+    __metadata("design:paramtypes", [app_service_1.AppService])
 ], AppController);
 exports.AppController = AppController;
 //# sourceMappingURL=app.controller.js.map

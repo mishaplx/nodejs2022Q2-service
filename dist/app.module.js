@@ -7,17 +7,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
+const login_module_1 = require("./login/login.module");
 const track_module_1 = require("./track/track/track.module");
 const user_module_1 = require("./user/user/user.module");
 const common_1 = require("@nestjs/common");
-const jwt_1 = require("@nestjs/jwt");
-const singup_service_1 = require("./singup/singup.service");
-const login_service_1 = require("./login/login.service");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
-const singup_controller_1 = require("./singup/singup.controller");
-const login_controller_1 = require("./login/login.controller");
-const favs_service_1 = require("./favs/favs/favs.service");
 const config_1 = require("@nestjs/config");
 const Joi = require("@hapi/joi");
 const database_module_1 = require("./db/database.module");
@@ -45,9 +40,10 @@ AppModule = __decorate([
             aldum_module_1.AldumModule,
             artist_module_1.ArtistModule,
             favs_module_1.FavsModule,
+            login_module_1.LoginModule,
         ],
-        controllers: [app_controller_1.AppController, singup_controller_1.SingupController, login_controller_1.LoginController],
-        providers: [app_service_1.AppService, singup_service_1.SingupService, login_service_1.LoginService, jwt_1.JwtService, favs_service_1.FavsService],
+        controllers: [app_controller_1.AppController],
+        providers: [app_service_1.AppService],
     })
 ], AppModule);
 exports.AppModule = AppModule;

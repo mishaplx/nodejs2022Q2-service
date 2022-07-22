@@ -1,19 +1,10 @@
+import { LoginModule } from './login/login.module';
 import { TrackModule } from './track/track/track.module';
 import { UserModule } from './user/user/user.module';
 import { Module } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-
-import { SingupService } from './singup/singup.service';
-import { LoginService } from './login/login.service';
-import { AtristService } from './artist/artists/atrist.service';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { SingupController } from './singup/singup.controller';
-import { LoginController } from './login/login.controller';
-import { ArtistController } from './artist/artist.controller';
-import { FavsController } from './favs/favs.controller';
-import { FavsService } from './favs/favs/favs.service';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from '@hapi/joi';
 import { DatabaseModule } from './db/database.module';
@@ -39,8 +30,9 @@ import { FavsModule } from './favs/favs/favs.module';
     AldumModule,
     ArtistModule,
     FavsModule,
+    LoginModule,
   ],
-  controllers: [AppController, SingupController, LoginController],
-  providers: [AppService, SingupService, LoginService, JwtService, FavsService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

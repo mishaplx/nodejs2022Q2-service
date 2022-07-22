@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserEntity = void 0;
+const class_validator_1 = require("class-validator");
 const typeorm_1 = require("typeorm");
 let UserEntity = class UserEntity {
 };
@@ -19,22 +20,27 @@ __decorate([
 ], UserEntity.prototype, "id", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
+    (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], UserEntity.prototype, "login", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
+    (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], UserEntity.prototype, "password", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
+    (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", Number)
 ], UserEntity.prototype, "version", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
+    (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], UserEntity.prototype, "createdAt", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
+    (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], UserEntity.prototype, "updatedAt", void 0);
 UserEntity = __decorate([

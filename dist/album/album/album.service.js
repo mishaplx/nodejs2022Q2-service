@@ -27,7 +27,7 @@ let AlbumService = class AlbumService {
     }
     async getById(id) {
         const AlbumById = await this.AlbumRepository.findBy({ id: id });
-        return AlbumById;
+        return AlbumById[0];
     }
     async create(CreateAlbumDto) {
         const newAlbum = Object.assign(Object.assign({}, CreateAlbumDto), { id: (0, uuid_1.v4)() });

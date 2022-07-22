@@ -1,9 +1,7 @@
 import { AppService } from './app.service';
-import { LoginService } from './login/login.service';
 export declare class AppController {
     private readonly appService;
-    private Loginservice;
-    constructor(appService: AppService, Loginservice: LoginService);
+    constructor(appService: AppService);
     hello(): string;
-    create(headers: any): Promise<any>;
+    create(headers: any): Promise<void>;
 }

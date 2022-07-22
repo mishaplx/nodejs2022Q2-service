@@ -27,7 +27,7 @@ export class TrackService {
     await this.TrackRepository.save(newTrackSave);
     return newTrackSave;
   }
-  async delete(id: string) {
+  async delete(id: string) { 
     const deleteTrack = await this.TrackRepository.delete({ id: id });
     // if (deleteTrack.length == db.track.length) {
     //   return false;

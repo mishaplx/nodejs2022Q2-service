@@ -1,10 +1,9 @@
+import { UserEntity } from './../entitys/user.entity';
 import { CreateUserDto } from '../user/dto/user.dto';
-import { JwtService } from '@nestjs/jwt';
+import { Repository } from 'typeorm';
 export declare class LoginService {
-    private jwtService;
-    constructor(jwtService: JwtService);
-    singup(loginUser: CreateUserDto): Promise<{
-        token: string;
-    }>;
-    verify(token: any): Promise<any>;
+    private userRep;
+    constructor(userRep: Repository<UserEntity>);
+    singup(loginUser: CreateUserDto): Promise<void>;
+    verify(token: any): Promise<void>;
 }

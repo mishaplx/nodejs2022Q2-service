@@ -14,41 +14,25 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AlbumController = void 0;
 const common_1 = require("@nestjs/common");
+const error_handler_1 = require("../errorhandler/error.handler");
 const album_service_1 = require("./album/album.service");
 const album_dto_1 = require("./dto/album.dto");
 const update_dto_1 = require("./dto/update.dto");
 let AlbumController = class AlbumController {
     constructor(Albumservice) {
         this.Albumservice = Albumservice;
+        this.error = new error_handler_1.ErrorHandler();
     }
     getall() {
         return this.Albumservice.getall();
     }
-    getById(id) {
-        if (id.split('-').length !== 5) {
-            console.log(id.split('-').length);
-            throw new common_1.BadRequestException({
-                status: common_1.HttpStatus.BAD_REQUEST,
-                error: 'BAD_REQUEST',
-            });
-        }
-        if (this.Albumservice.getById(id)) {
-            return this.Albumservice.getById(id);
-        }
-        else {
-            throw new common_1.NotFoundException({
-                status: common_1.HttpStatus.NOT_FOUND,
-                error: 'NOT_FOUND',
-            });
-        }
+    async getById(id) {
+        const Album = await this.Albumservice.getById(id);
+        if (!Album)
+            return this.error.notFound('Album');
+        return Album;
     }
     create(createAlbum) {
-        if (createAlbum.hasOwnProperty('name') == false) {
-            throw new common_1.BadRequestException({
-                status: common_1.HttpStatus.BAD_REQUEST,
-                message: 'BAD_REQUEST',
-            });
-        }
         return this.Albumservice.create(createAlbum);
     }
     delUser(id) {
@@ -82,11 +66,11 @@ __decorate([
 ], AlbumController.prototype, "getall", null);
 __decorate([
     (0, common_1.Get)(':id'),
-    (0, common_1.HttpCode)(200),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Get)(':id'),
+    __param(0, (0, common_1.Param)('id', common_1.ParseUUIDPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], AlbumController.prototype, "getById", null);
 __decorate([
     (0, common_1.Post)(),
@@ -94,7 +78,7 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [album_dto_1.CreateAlbumDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], AlbumController.prototype, "create", null);
 __decorate([
     (0, common_1.Delete)(':id'),

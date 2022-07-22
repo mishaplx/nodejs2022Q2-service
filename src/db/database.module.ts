@@ -24,7 +24,7 @@ import { FavsEntity } from 'src/entitys/favs.entity';
           TrackEntity,
           AlbumEntity,
           ArtistEntity,
-          FavsEntity,
+          //FavsEntity,
         ],
         synchronize: true,
       }),

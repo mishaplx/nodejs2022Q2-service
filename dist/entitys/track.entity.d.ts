@@ -1,7 +1,7 @@
 export declare class TrackEntity {
     id: string;
     name: string;
-    artistId: string | null;
+    artistId: string;
     albumId: string;
     duration: number;
 }
