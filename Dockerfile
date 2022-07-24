@@ -1,19 +1,7 @@
-FROM node:alpine
-
-LABEL version='2.0'
-LABEL name='M.plx'
-
-WORKDIR /app-rest
-
-COPY package*.json ./
-
-COPY tsconfig*.json ./
-
-COPY ./dist ./dist
-
+FROM node:lts-alpine as build
+WORKDIR /usr/app/src
+COPY package*.json .
 RUN npm install
-#RUN npm run build
-
-EXPOSE 4000
-
-CMD [ "npm", "run", "start:dev" ]
+COPY . .
+EXPOSE ${PORT}
+CMD [ "npm","run", "start:dev"]

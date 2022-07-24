@@ -1,15 +1,12 @@
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import * as dotenv from 'dotenv';
-dotenv.config();
+import 'dotenv/config';
 
-const port = process.env.PORT || 5000;
 async function bootstrap() {
+  const PORT = process.env.PORT;
   const app = await NestFactory.create(AppModule);
-  await app.listen(Number(port), () => {
-    console.log(
-      `App Start in port - ${port} - link - http://localhost:${port}`,
-    );
-  });
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+  await app.listen(PORT ?? 4000);
 }
 bootstrap();
