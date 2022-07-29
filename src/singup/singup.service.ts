@@ -5,6 +5,8 @@ import { v4 as uuidv4 } from 'uuid';
 import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import * as dotenv from 'dotenv';
+dotenv.config();
 @Injectable()
 export class SingupService {
   constructor(
@@ -15,7 +17,10 @@ export class SingupService {
     const newUser = {
       ...CreateUserDto,
       id: uuidv4(),
-      password: await bcrypt.hash(CreateUserDto.password, 10),
+      password: await bcrypt.hash(
+        CreateUserDto.password,
+        process.env.CRYPT_SALT,
+      ),
     };
     const newUserSave = await this.singupRepository.create(newUser);
     await this.singupRepository.save(newUserSave);

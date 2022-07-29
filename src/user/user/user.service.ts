@@ -6,7 +6,8 @@ import * as bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-
+import * as dotenv from 'dotenv';
+dotenv.config();
 @Injectable()
 export class UserService {
   constructor(
@@ -48,7 +49,10 @@ export class UserService {
     };
     const checkFlag = check(updatePassdto);
     if (checkFlag) {
-      const nerPass = await bcrypt.hash(updatePassdto.newPassword, 10);
+      const nerPass = await bcrypt.hash(
+        updatePassdto.newPassword,
+        process.env.CRYPT_SALT,
+      );
       this.userRepository.update(
         { password: user[0].password },
         { password: nerPass },
