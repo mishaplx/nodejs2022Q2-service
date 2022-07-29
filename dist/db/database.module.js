@@ -7,6 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DatabaseModule = void 0;
+const singup_entity_1 = require("./../entitys/singup.entity");
 const album_entity_1 = require("./../entitys/album.entity");
 const track_entity_1 = require("./../entitys/track.entity");
 const common_1 = require("@nestjs/common");
@@ -34,6 +35,7 @@ DatabaseModule = __decorate([
                         track_entity_1.TrackEntity,
                         album_entity_1.AlbumEntity,
                         artist_entity_1.ArtistEntity,
+                        singup_entity_1.SingupEntity,
                     ],
                     synchronize: true,
                 }),

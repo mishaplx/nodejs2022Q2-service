@@ -1,11 +1,11 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { LoginService } from './login.service';
 import { CreateUserDto } from '../user/dto/user.dto';
-@Controller('login')
+@Controller('auth')
 export class LoginController {
   constructor(private readonly Loginservice: LoginService) {}
-  @Post()
+  @Post('login')
   login(@Body() loginUser: CreateUserDto) {
-    return this.Loginservice.singup(loginUser);
+    return this.Loginservice.login(loginUser);
   }
 }

@@ -7,6 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
+const singup_module_1 = require("./singup/singup.module");
 const login_module_1 = require("./login/login.module");
 const track_module_1 = require("./track/track/track.module");
 const user_module_1 = require("./user/user/user.module");
@@ -19,6 +20,8 @@ const database_module_1 = require("./db/database.module");
 const aldum_module_1 = require("./album/album/aldum.module");
 const artist_module_1 = require("./artist/artists/artist.module");
 const favs_module_1 = require("./favs/favs/favs.module");
+const dotenv = require("dotenv");
+dotenv.config();
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -41,6 +44,7 @@ AppModule = __decorate([
             artist_module_1.ArtistModule,
             favs_module_1.FavsModule,
             login_module_1.LoginModule,
+            singup_module_1.SingupModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

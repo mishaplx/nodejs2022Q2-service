@@ -1,11 +1,19 @@
+import { ErrorHandler } from './../errorhandler/error.handler';
 import { Controller, Post, Body } from '@nestjs/common';
 import { CreateUserDto } from '../user/dto/user.dto';
 import { SingupService } from './singup.service';
-@Controller('singup')
+@Controller('auth')
 export class SingupController {
+  error = new ErrorHandler();
   constructor(private readonly singupService: SingupService) {}
-  @Post()
+  @Post('singup')
   singup(@Body() singupuser: CreateUserDto) {
-    return this.singupService.singup(singupuser);
+    if (
+      typeof singupuser.login !== 'string' ||
+      typeof singupuser.password !== 'string'
+    ) {
+      this.error.badRequest();
+    }
+    return this.singupService.create(singupuser);
   }
 }

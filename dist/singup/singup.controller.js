@@ -13,26 +13,32 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SingupController = void 0;
+const error_handler_1 = require("./../errorhandler/error.handler");
 const common_1 = require("@nestjs/common");
 const user_dto_1 = require("../user/dto/user.dto");
 const singup_service_1 = require("./singup.service");
 let SingupController = class SingupController {
     constructor(singupService) {
         this.singupService = singupService;
+        this.error = new error_handler_1.ErrorHandler();
     }
     singup(singupuser) {
-        return this.singupService.singup(singupuser);
+        if (typeof singupuser.login !== 'string' ||
+            typeof singupuser.password !== 'string') {
+            this.error.badRequest();
+        }
+        return this.singupService.create(singupuser);
     }
 };
 __decorate([
-    (0, common_1.Post)(),
+    (0, common_1.Post)('singup'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [user_dto_1.CreateUserDto]),
     __metadata("design:returntype", void 0)
 ], SingupController.prototype, "singup", null);
 SingupController = __decorate([
-    (0, common_1.Controller)('singup'),
+    (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [singup_service_1.SingupService])
 ], SingupController);
 exports.SingupController = SingupController;

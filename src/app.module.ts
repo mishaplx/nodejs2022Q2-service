@@ -1,3 +1,4 @@
+import { SingupModule } from './singup/singup.module';
 import { LoginModule } from './login/login.module';
 import { TrackModule } from './track/track/track.module';
 import { UserModule } from './user/user/user.module';
@@ -11,6 +12,9 @@ import { DatabaseModule } from './db/database.module';
 import { AldumModule } from './album/album/aldum.module';
 import { ArtistModule } from './artist/artists/artist.module';
 import { FavsModule } from './favs/favs/favs.module';
+import { JwtModule } from '@nestjs/jwt';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 @Module({
   imports: [
@@ -31,6 +35,7 @@ import { FavsModule } from './favs/favs/favs.module';
     ArtistModule,
     FavsModule,
     LoginModule,
+    SingupModule,
   ],
   controllers: [AppController],
   providers: [AppService],

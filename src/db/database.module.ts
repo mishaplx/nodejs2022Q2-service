@@ -1,3 +1,4 @@
+import { SingupEntity } from './../entitys/singup.entity';
 import { AlbumEntity } from './../entitys/album.entity';
 import { TrackEntity } from './../entitys/track.entity';
 import { Module } from '@nestjs/common';
@@ -25,6 +26,7 @@ import { FavsEntity } from 'src/entitys/favs.entity';
           AlbumEntity,
           ArtistEntity,
           //FavsEntity,
+          SingupEntity,
         ],
         synchronize: true,
       }),

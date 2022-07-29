@@ -21,18 +21,18 @@ let LoginController = class LoginController {
         this.Loginservice = Loginservice;
     }
     login(loginUser) {
-        return this.Loginservice.singup(loginUser);
+        return this.Loginservice.login(loginUser);
     }
 };
 __decorate([
-    (0, common_1.Post)(),
+    (0, common_1.Post)('login'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [user_dto_1.CreateUserDto]),
     __metadata("design:returntype", void 0)
 ], LoginController.prototype, "login", null);
 LoginController = __decorate([
-    (0, common_1.Controller)('login'),
+    (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [login_service_1.LoginService])
 ], LoginController);
 exports.LoginController = LoginController;

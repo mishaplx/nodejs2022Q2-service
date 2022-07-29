@@ -13,27 +13,47 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LoginService = void 0;
-const user_entity_1 = require("./../entitys/user.entity");
+const singup_entity_1 = require("./../entitys/singup.entity");
 const typeorm_1 = require("@nestjs/typeorm");
 const common_1 = require("@nestjs/common");
 const dotenv = require("dotenv");
+const bcrypt = require("bcrypt");
 const typeorm_2 = require("typeorm");
+const jwt_1 = require("@nestjs/jwt");
 dotenv.config();
 let LoginService = class LoginService {
-    constructor(userRep) {
+    constructor(userRep, jwtService) {
         this.userRep = userRep;
+        this.jwtService = jwtService;
     }
-    async singup(loginUser) {
-        const user = this.userRep.findBy({ login: loginUser.login });
-        console.log(user);
+    async login(loginUser) {
+        const user = await this.userRep.findBy({ login: loginUser.login });
+        if (user.length) {
+            const match = await bcrypt.compare(loginUser.password, user[0].password);
+            if (match) {
+                return {
+                    token: await this.jwtService.sign({
+                        id: user[0].id,
+                        login: user[0].login,
+                        password: user[0].password,
+                    }, {
+                        secret: process.env.JWT_SECRET_KEY,
+                    }),
+                };
+            }
+        }
     }
     async verify(token) {
+        return this.jwtService.verifyAsync(token, {
+            secret: process.env.JWT_SECRET_KEY,
+        });
     }
 };
 LoginService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, typeorm_1.InjectRepository)(user_entity_1.UserEntity)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __param(0, (0, typeorm_1.InjectRepository)(singup_entity_1.SingupEntity)),
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        jwt_1.JwtService])
 ], LoginService);
 exports.LoginService = LoginService;
 //# sourceMappingURL=login.service.js.map
