@@ -1,0 +1,7 @@
+import { AppService } from './app.service';
+export declare class AppController {
+    private readonly appService;
+    constructor(appService: AppService);
+    hello(): string;
+    create(headers: any): Promise<void>;
+}
