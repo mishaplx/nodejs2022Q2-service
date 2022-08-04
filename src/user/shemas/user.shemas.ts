@@ -3,6 +3,6 @@ export class User {
   login: string;
   password: string;
   version: number; // integer number, increments on update
-  createdAt: number; // timestamp of creation
+  createdAt: string; // timestamp of creation
   updatedAt: number; // timestamp of last update
 }

@@ -1,16 +1,15 @@
+import { JwtService } from '@nestjs/jwt';
 import { SingupEntity } from './../entitys/singup.entity';
-import { LoginService } from './login.service';
-import { LoginController } from './login.controller';
+import { LoginService } from './services/login.service';
+import { LoginController } from './controller/login.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Module } from '@nestjs/common';
-import { JwtModule } from '@nestjs/jwt';
-
+import * as dotenv from 'dotenv';
+dotenv.config();
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([SingupEntity]),
-    JwtModule.register({ secret: process.env.JWT_SECRET_KEY }),
-  ],
+  imports: [TypeOrmModule.forFeature([SingupEntity])],
+
   controllers: [LoginController],
-  providers: [LoginService],
+  providers: [LoginService, JwtService],
 })
 export class LoginModule {}

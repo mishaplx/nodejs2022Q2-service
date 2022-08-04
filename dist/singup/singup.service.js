@@ -19,12 +19,15 @@ const uuid_1 = require("uuid");
 const bcrypt = require("bcrypt");
 const typeorm_1 = require("typeorm");
 const typeorm_2 = require("@nestjs/typeorm");
+const dotenv = require("dotenv");
+dotenv.config();
 let SingupService = class SingupService {
     constructor(singupRepository) {
         this.singupRepository = singupRepository;
     }
     async create(CreateUserDto) {
-        const newUser = Object.assign(Object.assign({}, CreateUserDto), { id: (0, uuid_1.v4)(), password: await bcrypt.hash(CreateUserDto.password, 10) });
+        const CRYPT_SALT = Number(process.env.CRYPT_SALT);
+        const newUser = Object.assign(Object.assign({}, CreateUserDto), { id: (0, uuid_1.v4)(), password: await bcrypt.hash(CreateUserDto.password, CRYPT_SALT) });
         const newUserSave = await this.singupRepository.create(newUser);
         await this.singupRepository.save(newUserSave);
         return newUserSave;

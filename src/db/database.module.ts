@@ -1,36 +1,37 @@
 import { SingupEntity } from './../entitys/singup.entity';
 import { AlbumEntity } from './../entitys/album.entity';
 import { TrackEntity } from './../entitys/track.entity';
-import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UserEntity } from 'src/entitys/user.entity';
 import { ArtistEntity } from 'src/entitys/artist.entity';
-import { FavsEntity } from 'src/entitys/favs.entity';
+import { Injectable, Inject } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { TypeOrmOptionsFactory, TypeOrmModuleOptions } from '@nestjs/typeorm';
 
-@Module({
-  imports: [
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        type: 'postgres',
-        host: configService.get('POSTGRES_HOST'),
-        port: configService.get('POSTGRES_PORT'),
-        username: configService.get('POSTGRES_USER'),
-        password: configService.get('POSTGRES_PASSWORD'),
-        database: configService.get('POSTGRES_DB'),
-        entities: [
-          UserEntity,
-          TrackEntity,
-          AlbumEntity,
-          ArtistEntity,
-          //FavsEntity,
-          SingupEntity,
-        ],
-        synchronize: true,
-      }),
-    }),
-  ],
-})
-export class DatabaseModule {}
+@Injectable()
+export class TypeOrmConfigService implements TypeOrmOptionsFactory {
+  @Inject(ConfigService)
+  private readonly config: ConfigService;
+
+  public createTypeOrmOptions(): TypeOrmModuleOptions {
+    return {
+      type: 'postgres',
+      host: this.config.get<string>('DATABASE_HOST'),
+      port: this.config.get<number>('DATABASE_PORT'),
+      database: this.config.get<string>('DATABASE_NAME'),
+      username: this.config.get<string>('DATABASE_USER'),
+      password: this.config.get<string>('DATABASE_PASSWORD'),
+      entities: [
+        UserEntity,
+        TrackEntity,
+        AlbumEntity,
+        ArtistEntity,
+        //FavsEntity,
+        SingupEntity,
+      ],
+      migrations: ['dist/migrations/*.{ts,js}'],
+      migrationsTableName: 'typeorm_migrations',
+      logger: 'file',
+      synchronize: true, // never use TRUE in production!
+    };
+  }
+}

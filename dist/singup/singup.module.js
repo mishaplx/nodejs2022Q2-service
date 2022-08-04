@@ -7,9 +7,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SingupModule = void 0;
-const singup_controller_1 = require("./singup.controller");
+const singup_controller_1 = require("./controller/singup.controller");
 const common_1 = require("@nestjs/common");
-const singup_service_1 = require("./singup.service");
+const singup_service_1 = require("./services/singup.service");
 const typeorm_1 = require("@nestjs/typeorm");
 const singup_entity_1 = require("../entitys/singup.entity");
 let SingupModule = class SingupModule {

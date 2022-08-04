@@ -19,6 +19,8 @@ const bcrypt = require("bcrypt");
 const uuid_1 = require("uuid");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
+const dotenv = require("dotenv");
+dotenv.config();
 let UserService = class UserService {
     constructor(userRepository) {
         this.userRepository = userRepository;
@@ -38,6 +40,7 @@ let UserService = class UserService {
         return UserById[0];
     }
     async updatePass(id, updatePassdto) {
+        const CRYPT_SALT = process.env.CRYPT_SALT;
         const user = await this.userRepository.findBy({ id: id });
         console.log(user);
         const check = async function (updatePassdto) {
@@ -46,7 +49,7 @@ let UserService = class UserService {
         };
         const checkFlag = check(updatePassdto);
         if (checkFlag) {
-            const nerPass = await bcrypt.hash(updatePassdto.newPassword, 10);
+            const nerPass = await bcrypt.hash(updatePassdto.newPassword, CRYPT_SALT);
             this.userRepository.update({ password: user[0].password }, { password: nerPass });
             return user;
         }

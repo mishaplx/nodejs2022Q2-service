@@ -18,11 +18,10 @@ export class UserEntity {
   @IsNotEmpty()
   version: number; // integer number, increments on update
 
-  @Column()
-  @IsNotEmpty()
-  createdAt: string; // timestamp of creation
+  // @Column()
+  // createdAt: Date | null; // timestamp of creation
 
-  @Column()
-  @IsNotEmpty()
-  updatedAt: string; // timestamp of last update
+  // @Column()
+  // @IsNotEmpty()
+  // updatedAt: Date; // timestamp of last update
 }

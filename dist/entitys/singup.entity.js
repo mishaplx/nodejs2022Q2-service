@@ -21,12 +21,10 @@ __decorate([
 ], SingupEntity.prototype, "id", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: false }),
-    (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], SingupEntity.prototype, "login", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: false }),
-    (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], SingupEntity.prototype, "password", void 0);
 SingupEntity = __decorate([

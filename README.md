@@ -1,8 +1,5 @@
 # Home Library Service
 
-## Prerequisites
-
-- repository URL - [https://github.com/mishaplx/nodejs2022Q2-service.git](https://github.com/mishaplx/nodejs2022Q2-service.git).
 
 ## Downloading
 
@@ -16,38 +13,15 @@ git clone {repository URL}
 npm install
 ```
 
-## Running application(dev)
+## Docker build
 
 ```
-npm run start:dev
-```
-## Running application(prod)
-
-```
-npm run start:prod
-```
-Start app(read doc) - [http:localhost:4000/doc](http:localhost:4000/doc)
-
-Start app - [http:localhost:4000/doc](http:localhost:4000/)
-
-## Testing
-
-After application running open new terminal and enter:
-
-To run all tests without authorization
-
-```
-npm run test
+docker build .
 ```
 
-
-### Auto-fix and format
-
-```
-npm run lint
-```
+## Docker compose
 
 ```
-npm run format
+docker compose up
 ```
 

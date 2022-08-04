@@ -4,10 +4,10 @@ import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 export declare class LoginService {
     private userRep;
-    private readonly jwtService;
+    private jwtService;
     constructor(userRep: Repository<SingupEntity>, jwtService: JwtService);
-    login(loginUser: CreateUserDto): Promise<{
-        token: string;
+    validateUser(userDto: CreateUserDto): Promise<any>;
+    login(userDto: CreateUserDto): Promise<{
+        access_token: string;
     }>;
-    verify(token: any): Promise<any>;
 }

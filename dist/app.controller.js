@@ -8,9 +8,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppController = void 0;
 const common_1 = require("@nestjs/common");
@@ -22,22 +19,6 @@ let AppController = class AppController {
     hello() {
         return this.appService.hello();
     }
-    async create(headers) {
-        try {
-            const token = (headers['Authorization'] ||
-                headers['authorization'] ||
-                '').split(' ')[1];
-        }
-        catch (err) {
-            switch (err.message) {
-                case 'invalid token':
-                case 'jwt must be provided':
-                    throw new common_1.UnauthorizedException();
-                default:
-                    throw new common_1.HttpException(err.message, common_1.HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        }
-    }
 };
 __decorate([
     (0, common_1.Get)(),
@@ -45,15 +26,6 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", String)
 ], AppController.prototype, "hello", null);
-__decorate([
-    (0, common_1.Get)('doc'),
-    (0, common_1.Redirect)('https://app.swaggerhub.com/apis/OLEGORLOV100OLEG/home-library_service/1.0.0#/Login/post_login'),
-    (0, common_1.Post)('verify'),
-    __param(0, (0, common_1.Headers)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", Promise)
-], AppController.prototype, "create", null);
 AppController = __decorate([
     (0, common_1.Controller)(),
     __metadata("design:paramtypes", [app_service_1.AppService])

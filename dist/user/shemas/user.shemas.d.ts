@@ -3,6 +3,6 @@ export declare class User {
     login: string;
     password: string;
     version: number;
-    createdAt: number;
+    createdAt: string;
     updatedAt: number;
 }

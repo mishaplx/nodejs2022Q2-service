@@ -37,6 +37,7 @@ export class UserService {
   }
 
   async updatePass(id: string, updatePassdto: UpdatePasswordDto) {
+    const CRYPT_SALT = process.env.CRYPT_SALT;
     const user = await this.userRepository.findBy({ id: id });
     console.log(user);
     const check = async function (updatePassdto) {
@@ -49,10 +50,7 @@ export class UserService {
     };
     const checkFlag = check(updatePassdto);
     if (checkFlag) {
-      const nerPass = await bcrypt.hash(
-        updatePassdto.newPassword,
-        process.env.CRYPT_SALT,
-      );
+      const nerPass = await bcrypt.hash(updatePassdto.newPassword, CRYPT_SALT);
       this.userRepository.update(
         { password: user[0].password },
         { password: nerPass },

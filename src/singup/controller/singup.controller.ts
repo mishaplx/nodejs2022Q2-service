@@ -1,7 +1,7 @@
-import { ErrorHandler } from './../errorhandler/error.handler';
+import { ErrorHandler } from '../../errorhandler/error.handler';
 import { Controller, Post, Body } from '@nestjs/common';
-import { CreateUserDto } from '../user/dto/user.dto';
-import { SingupService } from './singup.service';
+import { CreateUserDto } from '../../user/dto/user.dto';
+import { SingupService } from '../services/singup.service';
 @Controller('auth')
 export class SingupController {
   error = new ErrorHandler();

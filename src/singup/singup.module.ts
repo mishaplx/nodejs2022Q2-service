@@ -1,6 +1,6 @@
-import { SingupController } from './singup.controller';
+import { SingupController } from './controller/singup.controller';
 import { Module } from '@nestjs/common';
-import { SingupService } from './singup.service';
+import { SingupService } from './services/singup.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SingupEntity } from '../entitys/singup.entity';
 @Module({

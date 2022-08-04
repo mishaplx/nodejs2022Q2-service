@@ -11,14 +11,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LoginService = void 0;
 const singup_entity_1 = require("./../entitys/singup.entity");
 const typeorm_1 = require("@nestjs/typeorm");
 const common_1 = require("@nestjs/common");
 const dotenv = require("dotenv");
-const bcrypt = require("bcrypt");
 const typeorm_2 = require("typeorm");
+const bcrypt = require("bcrypt");
 const jwt_1 = require("@nestjs/jwt");
 dotenv.config();
 let LoginService = class LoginService {
@@ -26,27 +37,21 @@ let LoginService = class LoginService {
         this.userRep = userRep;
         this.jwtService = jwtService;
     }
-    async login(loginUser) {
-        const user = await this.userRep.findBy({ login: loginUser.login });
-        if (user.length) {
-            const match = await bcrypt.compare(loginUser.password, user[0].password);
-            if (match) {
-                return {
-                    token: await this.jwtService.sign({
-                        id: user[0].id,
-                        login: user[0].login,
-                        password: user[0].password,
-                    }, {
-                        secret: process.env.JWT_SECRET_KEY,
-                    }),
-                };
-            }
+    async validateUser(userDto) {
+        const user = await this.userRep.findOneBy({ login: userDto.login });
+        const validPass = await bcrypt.compare(userDto.password, user.password);
+        console.log(validPass);
+        if (user && validPass) {
+            const { password } = user, result = __rest(user, ["password"]);
+            return result;
         }
+        return null;
     }
-    async verify(token) {
-        return this.jwtService.verifyAsync(token, {
-            secret: process.env.JWT_SECRET_KEY,
-        });
+    async login(userDto) {
+        const payload = { username: userDto.login, sub: 1 };
+        return {
+            access_token: this.jwtService.sign(payload),
+        };
     }
 };
 LoginService = __decorate([
