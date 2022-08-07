@@ -13,12 +13,11 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TrackController = void 0;
+const auth_guard_1 = require("./../auth/auth.guard");
 const common_1 = require("@nestjs/common");
 const track_service_1 = require("./track/track.service");
 const track_dto_1 = require("./dto/track.dto");
 const update_dto_1 = require("./dto/update.dto");
-const login_service_1 = require("../login/services/login.service");
-login_service_1.LoginService;
 let TrackController = class TrackController {
     constructor(Trackservice) {
         this.Trackservice = Trackservice;
@@ -116,6 +115,7 @@ __decorate([
 ], TrackController.prototype, "updateTrack", null);
 TrackController = __decorate([
     (0, common_1.Controller)('track'),
+    (0, common_1.UseGuards)(auth_guard_1.JwtAuthGuard),
     __metadata("design:paramtypes", [track_service_1.TrackService])
 ], TrackController);
 exports.TrackController = TrackController;

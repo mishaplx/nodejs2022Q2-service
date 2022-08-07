@@ -13,6 +13,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AlbumController = void 0;
+const auth_guard_1 = require("./../auth/auth.guard");
 const common_1 = require("@nestjs/common");
 const error_handler_1 = require("../errorhandler/error.handler");
 const album_service_1 = require("./album/album.service");
@@ -99,6 +100,7 @@ __decorate([
 ], AlbumController.prototype, "updateTrack", null);
 AlbumController = __decorate([
     (0, common_1.Controller)('album'),
+    (0, common_1.UseGuards)(auth_guard_1.JwtAuthGuard),
     __metadata("design:paramtypes", [album_service_1.AlbumService])
 ], AlbumController);
 exports.AlbumController = AlbumController;

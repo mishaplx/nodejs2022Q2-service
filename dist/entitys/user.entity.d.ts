@@ -3,4 +3,5 @@ export declare class UserEntity {
     login: string;
     password: string;
     version: number;
+    refresh_token?: string;
 }

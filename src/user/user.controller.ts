@@ -1,3 +1,4 @@
+import { JwtAuthGuard } from './../auth/auth.guard';
 import {
   Body,
   Controller,
@@ -5,9 +6,7 @@ import {
   HttpCode,
   Post,
   Param,
-  HttpStatus,
-  NotFoundException,
-  BadRequestException,
+  UseGuards,
   Put,
   Delete,
 } from '@nestjs/common';
@@ -16,6 +15,7 @@ import { UpdatePasswordDto } from './dto/update.dto';
 import { UserService } from './user/user.service';
 import { ErrorHandler } from 'src/errorhandler/error.handler';
 @Controller('user')
+@UseGuards(JwtAuthGuard)
 export class UserController {
   error = new ErrorHandler();
   constructor(public readonly Userservice: UserService) {}
@@ -25,6 +25,7 @@ export class UserController {
     return this.Userservice.getall();
   }
   @Post()
+  @UseGuards(JwtAuthGuard)
   create(@Body() createuser: CreateUserDto) {
     return this.Userservice.create(createuser);
   }

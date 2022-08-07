@@ -13,6 +13,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FavsController = void 0;
+const auth_guard_1 = require("./../auth/auth.guard");
 const common_1 = require("@nestjs/common");
 const favs_service_1 = require("./favs/favs.service");
 let FavsController = class FavsController {
@@ -98,6 +99,7 @@ __decorate([
 ], FavsController.prototype, "deleteArtist", null);
 FavsController = __decorate([
     (0, common_1.Controller)('favs'),
+    (0, common_1.UseGuards)(auth_guard_1.JwtAuthGuard),
     __metadata("design:paramtypes", [favs_service_1.FavsService])
 ], FavsController);
 exports.FavsController = FavsController;

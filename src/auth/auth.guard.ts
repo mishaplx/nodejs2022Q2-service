@@ -6,6 +6,8 @@ import { UserEntity } from '../entitys/user.entity';
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') implements IAuthGuard {
   public handleRequest(err: unknown, user: UserEntity): any {
+    //console.log(err);
+
     return user;
   }
 
@@ -14,6 +16,9 @@ export class JwtAuthGuard extends AuthGuard('jwt') implements IAuthGuard {
 
     const { user }: Request = context.switchToHttp().getRequest();
 
-    return user ? true : false;
+    const bool = user ? true : false;
+    console.log('booool ----- ', bool);
+
+    return bool;
   }
 }

@@ -1,7 +1,17 @@
-import { Controller, Get, Post, Delete, HttpCode, Param } from '@nestjs/common';
+import { JwtAuthGuard } from './../auth/auth.guard';
+import {
+  Controller,
+  Get,
+  Post,
+  Delete,
+  HttpCode,
+  Param,
+  UseGuards,
+} from '@nestjs/common';
 import { FavsService } from './favs/favs.service';
 
 @Controller('favs')
+@UseGuards(JwtAuthGuard)
 export class FavsController {
   constructor(private Favservice: FavsService) {}
   @Get()
@@ -37,6 +47,6 @@ export class FavsController {
   @Delete('track/:id')
   @HttpCode(204)
   deleteArtist(@Param('id') id: string) {
-    return this.Favservice.deleteArtist(id); 
+    return this.Favservice.deleteArtist(id);
   }
 }

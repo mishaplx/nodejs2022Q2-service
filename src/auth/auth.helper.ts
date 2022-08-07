@@ -28,7 +28,13 @@ export class AuthHelper {
 
   // Get User by User ID we get from decode()
   public async validateUser(decoded: any): Promise<UserEntity> {
-    return this.repository.findOne(decoded.id);
+    const user: UserEntity = await this.repository.findOne({
+      where: { id: decoded.id },
+    });
+
+    console.log(user);
+
+    return user;
   }
 
   // Generate JWT Token

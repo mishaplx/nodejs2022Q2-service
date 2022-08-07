@@ -15,7 +15,6 @@ export class AuthService {
 
   public async register(body: RegisterDto): Promise<UserEntity | never> {
     const { login, password }: RegisterDto = body;
-    console.log(login);
 
     let user: UserEntity = await this.repository.findOne({
       where: { login: login },
@@ -49,7 +48,7 @@ export class AuthService {
     );
 
     if (!isPasswordValid) {
-      throw new HttpException('No user found', HttpStatus.NOT_FOUND);
+      throw new HttpException('Forbidden resource', HttpStatus.FORBIDDEN);
     }
 
     // this.repository.update(user.id, { updatedAt: new Date().toString() });

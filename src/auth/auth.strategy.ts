@@ -18,7 +18,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  private validate(payload: string): Promise<UserEntity | never> {
+  private validate(payload: UserEntity): Promise<UserEntity | never> {
     return this.helper.validateUser(payload);
   }
 }

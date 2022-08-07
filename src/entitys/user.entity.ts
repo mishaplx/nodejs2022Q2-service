@@ -1,6 +1,6 @@
 import { IsNotEmpty } from 'class-validator';
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
-
+import { Exclude } from 'class-transformer';
 @Entity('user')
 export class UserEntity {
   @PrimaryGeneratedColumn('uuid')
@@ -18,6 +18,8 @@ export class UserEntity {
   @IsNotEmpty()
   version: number; // integer number, increments on update
 
+  @Exclude()
+  refresh_token?: string;
   // @Column()
   // createdAt: Date | null; // timestamp of creation
 

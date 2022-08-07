@@ -13,6 +13,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ArtistController = void 0;
+const auth_guard_1 = require("./../auth/auth.guard");
 const common_1 = require("@nestjs/common");
 const atrist_service_1 = require("./artists/atrist.service");
 const artist_dto_1 = require("./dto/artist.dto");
@@ -115,6 +116,7 @@ __decorate([
 ], ArtistController.prototype, "updateTrack", null);
 ArtistController = __decorate([
     (0, common_1.Controller)('artist'),
+    (0, common_1.UseGuards)(auth_guard_1.JwtAuthGuard),
     __metadata("design:paramtypes", [atrist_service_1.AtristService])
 ], ArtistController);
 exports.ArtistController = ArtistController;

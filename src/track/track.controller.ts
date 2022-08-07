@@ -1,3 +1,4 @@
+import { JwtAuthGuard } from './../auth/auth.guard';
 import {
   Controller,
   Body,
@@ -10,14 +11,13 @@ import {
   BadRequestException,
   Put,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { TrackService } from './track/track.service';
 import { CreateTrackrDto } from './dto/track.dto';
 import { UpdateTrackDto } from './dto/update.dto';
-import { LoginService } from '../login/services/login.service';
-
-LoginService;
 @Controller('track')
+@UseGuards(JwtAuthGuard)
 export class TrackController {
   constructor(private readonly Trackservice: TrackService) {}
   @Get()

@@ -1,3 +1,4 @@
+import { JwtAuthGuard } from './../auth/auth.guard';
 import {
   Controller,
   Body,
@@ -10,11 +11,13 @@ import {
   BadRequestException,
   Put,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { AtristService } from './artists/atrist.service';
 import { CreateArtistDto } from './dto/artist.dto';
 import { UpdateArtistDto } from './dto/update.dto';
 @Controller('artist')
+@UseGuards(JwtAuthGuard)
 export class ArtistController {
   constructor(private readonly artistservice: AtristService) {}
   @Get()

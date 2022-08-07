@@ -1,15 +1,12 @@
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { JwtModule } from '@nestjs/jwt';
-import { SingupModule } from './singup/singup.module';
-import { LoginModule } from './login/login.module';
+
 import { TrackModule } from './track/track/track.module';
 import { UserModule } from './user/user/user.module';
 import { Module } from '@nestjs/common';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import * as Joi from '@hapi/joi';
+import { ConfigModule } from '@nestjs/config';
 import { AldumModule } from './album/album/aldum.module';
 import { ArtistModule } from './artist/artists/artist.module';
 import { FavsModule } from './favs/favs/favs.module';

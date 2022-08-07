@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserEntity = void 0;
 const class_validator_1 = require("class-validator");
 const typeorm_1 = require("typeorm");
+const class_transformer_1 = require("class-transformer");
 let UserEntity = class UserEntity {
 };
 __decorate([
@@ -33,6 +34,10 @@ __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", Number)
 ], UserEntity.prototype, "version", void 0);
+__decorate([
+    (0, class_transformer_1.Exclude)(),
+    __metadata("design:type", String)
+], UserEntity.prototype, "refresh_token", void 0);
 UserEntity = __decorate([
     (0, typeorm_1.Entity)('user')
 ], UserEntity);
