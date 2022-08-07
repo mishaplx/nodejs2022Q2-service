@@ -3,10 +3,15 @@ import { AppService } from './app.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
-
+  constructor(
+    private readonly appService: AppService, // private Loginservice: LoginService,
+  ) {}
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  hello(): string {
+    return this.appService.hello();
   }
+  // @Get('doc')
+  // @Redirect(
+  //   'https://app.swaggerhub.com/apis/OLEGORLOV100OLEG/home-library_service/1.0.0#/Login/post_login',
+  // )
 }
